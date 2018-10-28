@@ -45,12 +45,14 @@ namespace Blazoned.AchievementHunter
         /// <summary>
         /// Instantiate an achievement object.
         /// </summary>
+        /// <param name="id">The achievement identifier.</param>
         /// <param name="title">The achievement title.</param>
         /// <param name="description">The description of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved.</param>
-        public Achievement(string title, string description, int score, int goal = -1)
+        public Achievement(string id, string title, string description, int score, int goal = -1)
         {
+            this.ID = id;
             this.Title = title;
             this.Description = description;
             this.Score = score;
@@ -67,13 +69,40 @@ namespace Blazoned.AchievementHunter
 
             this.Counter = 0;
             this._isCompleted = false;
-
-            // TODO: Add a unique identification based on the achievement details.
-            this.ID = "SOMETHING UNIQUELY GENERATED.";
         }
         #endregion
 
         #region Functions
+        /// <summary>
+        /// Triggers the achievement to be completed if the achievement is triggerable.
+        /// </summary>
+        /// <returns>Returns true if the achievement has been completed because of the trigger, else returns false.</returns>
+        public bool Trigger()
+        {
+            if (AchievementType == EAchievementType.Trigger && !_isCompleted)
+            {
+                return IsCompleted();
+            }
+
+            return false;
+        }
+        /// <summary>
+        /// Sets the goal counter of the achievement.
+        /// </summary>
+        /// <param name="count">The score to which to set the goal counter.</param>
+        /// <returns>Returns true if the achievement has been completed because of the set counter, else returns false.</returns>
+        public bool SetCounter(int count)
+        {
+            if (!_isCompleted)
+            {
+                Counter = count;
+
+                LimitCounter();
+
+                return IsCompleted();
+            }
+            return _isCompleted;
+        }
         /// <summary>
         /// Increases the goal counter of the achievement. This function also accepts negative increments.
         /// </summary>
@@ -85,10 +114,7 @@ namespace Blazoned.AchievementHunter
             {
                 Counter += increment;
 
-                if (Counter > Goal)
-                    Counter = Goal;
-                if (Counter < 0)
-                    Counter = 0;
+                LimitCounter();
 
                 return IsCompleted();
             }
@@ -101,6 +127,7 @@ namespace Blazoned.AchievementHunter
         /// <returns>Returns true if the achievement has been completed.</returns>
         public bool IsCompleted()
         {
+            // TODO: Fix trigger is always completed bug)
             if (!_isCompleted)
             {
                 _isCompleted = Counter == Goal;
@@ -110,7 +137,16 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Methods
-        
+        /// <summary>
+        /// Change the value to 0 or the goal of the achievement if the goal counter is out of bounds.
+        /// </summary>
+        private void LimitCounter()
+        {
+            if (Counter > Goal)
+                Counter = Goal;
+            if (Counter < 0)
+                Counter = 0;
+        }
         #endregion
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="Achievement.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="EAchievementType.cs" />
+    <Compile Include="Extentions\HashtableExtentionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
