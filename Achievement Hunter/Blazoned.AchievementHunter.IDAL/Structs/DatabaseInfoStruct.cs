@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazoned.AchievementHunter.IDAL.Structs.Config
+namespace Blazoned.AchievementHunter.IDAL.Structs
 {
     public struct DatabaseInfoStruct
     {

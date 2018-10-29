@@ -9,7 +9,6 @@ namespace Blazoned.AchievementHunter
     public class Achievement
     {
         #region Fields
-        // TODO: Make completion public
         private bool _isCompleted;
 
         /// <summary>
@@ -37,6 +36,23 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         public int Counter { get; private set; }
         /// <summary>
+        /// Gets whether or not the achievement has been completed.
+        /// </summary>
+        public bool IsCompleted {
+            get
+            {
+                if (!_isCompleted && AchievementType != EAchievementType.Trigger)
+                {
+                    _isCompleted = Counter == Goal;
+                }
+                return _isCompleted;
+            }
+            private set
+            {
+                _isCompleted = value;
+            }
+        }
+        /// <summary>
         /// Gets the achievement type.
         /// </summary>
         public EAchievementType AchievementType { get; private set; }
@@ -51,7 +67,9 @@ namespace Blazoned.AchievementHunter
         /// <param name="description">The description or flavour text of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
-        public Achievement(string id, string title, string description, int score, int goal = -1)
+        /// <param name="counter">The current progress of the achievement.</param>
+        /// <param name="isCompleted">Whether or not the achievement has been completed.</param>
+        public Achievement(string id, string title, string description, int score, int goal = -1, int counter = 0, bool isCompleted = false)
         {
             this.ID = id;
             this.Title = title;
@@ -68,8 +86,8 @@ namespace Blazoned.AchievementHunter
                 this.AchievementType = EAchievementType.Score;
             }
 
-            this.Counter = 0;
-            this._isCompleted = false;
+            this.Counter = counter;
+            this.IsCompleted = isCompleted;
         }
         #endregion
 
@@ -82,7 +100,7 @@ namespace Blazoned.AchievementHunter
         {
             if (AchievementType == EAchievementType.Trigger && !_isCompleted)
             {
-                return IsCompleted();
+                return IsCompleted = true;
             }
 
             return false;
@@ -94,13 +112,13 @@ namespace Blazoned.AchievementHunter
         /// <returns>Returns true if the achievement has been completed because of the set counter, else returns false.</returns>
         public bool SetCounter(int count)
         {
-            if (!_isCompleted)
+            if (AchievementType == EAchievementType.Score && !_isCompleted)
             {
                 Counter = count;
 
                 LimitCounter();
 
-                return IsCompleted();
+                return IsCompleted;
             }
             return _isCompleted;
         }
@@ -111,29 +129,16 @@ namespace Blazoned.AchievementHunter
         /// <returns>Returns true if the achievement has been cokmpleted because of the counter increment, else returns false.</returns>
         public bool IncreaseCounter(int increment = 1)
         {
-            if (!_isCompleted)
+            if (AchievementType == EAchievementType.Score && !_isCompleted)
             {
                 Counter += increment;
 
                 LimitCounter();
 
-                return IsCompleted();
+                return IsCompleted;
             }
 
             return false;
-        }
-        /// <summary>
-        /// Gets if the achievement has been completed.
-        /// </summary>
-        /// <returns>Returns true if the achievement has been completed.</returns>
-        public bool IsCompleted()
-        {
-            // TODO: Fix trigger is always completed bug)
-            if (!_isCompleted)
-            {
-                _isCompleted = Counter == Goal;
-            }
-            return _isCompleted;
         }
         #endregion
 

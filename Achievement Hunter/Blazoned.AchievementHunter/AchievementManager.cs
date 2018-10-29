@@ -98,9 +98,9 @@ namespace Blazoned.AchievementHunter
             return true;
         }
         /// <summary>
-        /// 
+        /// Add a new achievements to the achievement manager. These achievement will also be added to the configuration file and the achievement data.
         /// </summary>
-        /// <param name="achievements"></param>
+        /// <param name="achievements">The achievements to add to the system.</param>
         public void AddAchievements(Dictionary<string, Achievement> achievements)
         {
             // TODO: Add range to database
