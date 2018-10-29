@@ -65,7 +65,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="id">The achievement identifier.</param>
         /// <param name="title">The achievement title.</param>
-        /// <param name="description">The description of the achievement.</param>
+        /// <param name="description">The description or flavour text of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         /// <returns>Returns false if the achievement already exists. Else returns true.</returns>

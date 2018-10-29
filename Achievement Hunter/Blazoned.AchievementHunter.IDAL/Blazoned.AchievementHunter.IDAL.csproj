@@ -41,13 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\IDataAccessConfig.cs" />
+    <Compile Include="Interfaces\Config\IDataAccessConfig.cs" />
     <Compile Include="IDataAccessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\Config\AchievementStruct.cs" />
+    <Compile Include="Structs\Config\ConnectionStruct.cs" />
+    <Compile Include="Structs\Config\DatabaseInfoStruct.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
-    <Folder Include="Structs\" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.Config\Blazoned.AchievementHunter.Config.csproj">
+      <Project>{70556911-4042-4933-8dda-e4b8d344537d}</Project>
+      <Name>Blazoned.AchievementHunter.Config</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

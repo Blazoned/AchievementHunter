@@ -5,9 +5,9 @@
       "connection": "INSERT CONNECTION STRING",
       "database": {
         "linkTable": "Link Table Name",
-        "achievement": "Achievement Table Name",
-        "user": "User Table Name",
-        "userId": "User Primary Key"
+        "achievementTable": "Achievement Table Name",
+        "userTable": "User Table Name",
+        "userKey": "User Primary Key"
       }
     },
     {

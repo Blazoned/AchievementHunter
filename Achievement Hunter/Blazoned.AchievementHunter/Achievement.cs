@@ -9,6 +9,7 @@ namespace Blazoned.AchievementHunter
     public class Achievement
     {
         #region Fields
+        // TODO: Make completion public
         private bool _isCompleted;
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         public string Title { get; private set; }
         /// <summary>
-        /// Gets the description of the achievement.
+        /// Gets the description or flavour text of the achievement.
         /// </summary>
         public string Description { get; private set; }
         /// <summary>
@@ -47,7 +48,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="id">The achievement identifier.</param>
         /// <param name="title">The achievement title.</param>
-        /// <param name="description">The description of the achievement.</param>
+        /// <param name="description">The description or flavour text of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         public Achievement(string id, string title, string description, int score, int goal = -1)
