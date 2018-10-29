@@ -15,12 +15,12 @@ namespace Blazoned.AchievementHunter
         /// <summary>
         /// Get an achievement from the achievement manager by its specified id.
         /// </summary>
-        /// <param name="user">The user id of the user from which to access the achievements.</param>
-        /// <param name="id">The identifier of the achievement.</param>
+        /// <param name="userID">The user id of the user from which to access the achievements.</param>
+        /// <param name="achievementID">The identifier of the achievement.</param>
         /// <returns>Returns the achievement value corresponding to the identifier. Returns null if no such achievement exists.</returns>
-        public Achievement this[string user, string id]
+        public Achievement this[string userID, string achievementID]
         {
-            get { return (Achievement)_achievements[user][id]; }
+            get { return (Achievement)_achievements[userID][achievementID]; }
         }
         #endregion
 
@@ -59,6 +59,63 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Achievements
+        #region Add
+        /// <summary>
+        /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
+        /// </summary>
+        /// <param name="id">The achievement identifier.</param>
+        /// <param name="title">The achievement title.</param>
+        /// <param name="description">The description of the achievement.</param>
+        /// <param name="score">The score granted by the achievement.</param>
+        /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
+        /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
+        public bool AddAchievement(string id, string title, string description, int score, int goal = -1)
+        {
+            return AddAchievement(new Achievement(id, title, description, score, goal));
+        }
+        /// <summary>
+        /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
+        /// </summary>
+        /// <param name="achievement">The achievement to add to the achievement system.</param>
+        /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
+        public bool AddAchievement(Achievement achievement)
+        {
+            // TODO: Add a new achievement to the database and check if it already exists or not.
+            bool success = false;
+
+            // TODO: Don't add the achievement if it already exists.
+            if (!success)
+                return false;
+
+            // Add the achievements to each user
+            List<string> keys = new List<string>(_achievements.Keys);
+
+            foreach (var key in keys)
+            {
+                _achievements[key].SafeAdd(achievement.ID, achievement);
+            }
+
+            return true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="achievements"></param>
+        public void AddAchievements(Dictionary<string, Achievement> achievements)
+        {
+            // TODO: Add range to database
+
+            // Add the achievements to each user
+            List<string> keys = new List<string>(_achievements.Keys);
+
+            foreach(var key in keys)
+            {
+                _achievements[key].AddRange(new Hashtable(achievements));
+            }
+        }
+        #endregion
+
+        #region Load
         /// <summary>
         /// Load all the users into the achievement manager.
         /// </summary>
@@ -82,6 +139,7 @@ namespace Blazoned.AchievementHunter
             _achievements.Clear();
             PopulateAchievements(true);
         }
+        #endregion
         #endregion
 
         #region Dispose

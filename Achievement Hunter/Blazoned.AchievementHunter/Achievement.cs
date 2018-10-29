@@ -49,7 +49,7 @@ namespace Blazoned.AchievementHunter
         /// <param name="title">The achievement title.</param>
         /// <param name="description">The description of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
-        /// <param name="goal">The goal the achievement counter has to reach to be achieved.</param>
+        /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         public Achievement(string id, string title, string description, int score, int goal = -1)
         {
             this.ID = id;
@@ -108,7 +108,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="increment">The amount to add to the goal counter.</param>
         /// <returns>Returns true if the achievement has been cokmpleted because of the counter increment, else returns false.</returns>
-        public bool IncreaseCounter(int increment)
+        public bool IncreaseCounter(int increment = 1)
         {
             if (!_isCompleted)
             {

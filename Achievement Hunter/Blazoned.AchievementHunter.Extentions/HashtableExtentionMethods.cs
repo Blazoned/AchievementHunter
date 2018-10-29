@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.Extentions
 {
-    internal static class HashtableExtentionMethods
+    public static class HashtableExtentionMethods
     {
         /// <summary>
         /// Adds the specified key and value into the Hashtable only if the item is not already in the collection.
