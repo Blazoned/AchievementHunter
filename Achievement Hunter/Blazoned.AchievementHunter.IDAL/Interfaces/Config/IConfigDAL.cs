@@ -7,13 +7,13 @@ using Blazoned.AchievementHunter.IDAL.Structs;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Config
 {
-    public interface IDataAccessConfig
+    public interface IConfigDAL
     {
         /// <summary>
         /// Load the database connection settings found in the configuration files.
         /// </summary>
         /// <returns>Returns the connection settings.</returns>
-        ConnectionStruct[] LoadDataAccessConfiguration();
+        DatabaseInfoStruct LoadDataAccessConfiguration();
         /// <summary>
         /// Load the achievements from the configurations.
         /// </summary>

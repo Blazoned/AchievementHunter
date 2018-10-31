@@ -1,17 +1,9 @@
 {
-  "connections": [
-    {
-      "location": "",
-      "connection": "INSERT CONNECTION STRING",
-      "database": {
-        "linkTable": "Link Table Name",
-        "achievementTable": "Achievement Table Name",
-        "userTable": "User Table Name",
-        "userKey": "User Primary Key"
-      }
-    },
-    {
-      "location": "~/data/achievements"
-    }
-  ]
+  "connection": "INSERT CONNECTION STRING",
+  "database": {
+    "linkTable": "Link Table Name",
+    "achievementTable": "Achievement Table Name",
+    "userTable": "User Table Name",
+    "userKey": "User Primary Key"
+  }
 }

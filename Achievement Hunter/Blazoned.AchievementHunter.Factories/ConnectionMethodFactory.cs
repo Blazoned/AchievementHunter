@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazoned.AchievementHunter.Config
+namespace Blazoned.AchievementHunter.Factories
 {
-    public class Class1
+    class ConnectionMethodFactory
     {
     }
 }

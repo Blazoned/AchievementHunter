@@ -27,7 +27,7 @@ namespace Blazoned.AchievementHunter
         /// <summary>
         /// The singleton instance of this class.
         /// </summary>
-        private static AchievementManager _this;
+        private static AchievementManager _instance;
         /// <summary>
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
@@ -50,11 +50,11 @@ namespace Blazoned.AchievementHunter
         /// <returns>Returns an instance of the achievement manager.</returns>
         public AchievementManager GetInstance()
         {
-            if (_this == null)
+            if (_instance == null)
             {
-                _this = new AchievementManager();
+                _instance = new AchievementManager();
             }
-            return _this;
+            return _instance;
         }
         #endregion
 
