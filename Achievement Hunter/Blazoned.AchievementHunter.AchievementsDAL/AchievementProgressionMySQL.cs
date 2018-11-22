@@ -8,14 +8,35 @@ using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.DAL.MySQL
 {
-    public class AchievementProgressionMySQL : ConnectionMySQL, IAchievementDAL
+    public class AchievementProgressionMySQL : ConnectionMySQL, IAchievementProgressionDAL
     {
-        public bool CreateAchievements(AchievementStruct[] connection)
+        public AchievementProgressionMySQL(string connectionString)
+            : base(connectionString)
+        {
+
+        }
+
+        public bool DeleteUserData(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteAchievements()
+        public AchievementProgressionStruct GetAchievementProgression(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AchievementProgressionStruct[] GetAchievementProgressions(string[] userIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AchievementProgressionStruct[] GetAchievementProgressions(int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateAchievementProgression(AchievementProgressionStruct progression)
         {
             throw new NotImplementedException();
         }

@@ -41,13 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionMethodFactory.cs" />
+    <Compile Include="ConnectionMethodFactoryPool.cs" />
+    <Compile Include="ConnectionMethodFactoryProxy.cs" />
+    <Compile Include="DatabaseAttribute.cs" />
+    <Compile Include="IConnectionMethodFactory.cs" />
+    <Compile Include="MySQLConnectionMethodFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blazoned.AchievementHunter.Config\Blazoned.AchievementHunter.DAL.Config.csproj">
-      <Project>{70556911-4042-4933-8dda-e4b8d344537d}</Project>
-      <Name>Blazoned.AchievementHunter.DAL.Config</Name>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.AchievementsDAL\Blazoned.AchievementHunter.DAL.MySQL.csproj">
+      <Project>{4de7a291-6f95-4cf7-8488-cf5ed280b066}</Project>
+      <Name>Blazoned.AchievementHunter.DAL.MySQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.DAL.Configuration.JSON\Blazoned.AchievementHunter.DAL.Configuration.JSON.csproj">
+      <Project>{767aab76-dfea-40e5-abc0-51aa038dfbf5}</Project>
+      <Name>Blazoned.AchievementHunter.DAL.Configuration.JSON</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj">
       <Project>{4941794a-223e-4e7b-bcf6-afd930eecb84}</Project>

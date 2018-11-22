@@ -10,10 +10,6 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
     {
         #region Fields
         /// <summary>
-        /// The database connection string. This connection string should be encrypted.
-        /// </summary>
-        public readonly string connection;
-        /// <summary>
         /// The link table that is responsible for keeping track of a user's achievements.
         /// </summary>
         public readonly string linkTable;
@@ -35,14 +31,12 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
         /// <summary>
         /// Instantiate a database information struct.
         /// </summary>
-        /// <param name="connection">The database connection string. This connection string should be encrypted.</param>
         /// <param name="linkTable">The link table that is responsible for keeping track of a user's achievements.</param>
         /// <param name="achievementTable">The achievement table that is responsible for storing the globally available achievements.</param>
         /// <param name="userTable">The user table that contains the users which to be linked to their individual achievements progression.</param>
         /// <param name="userKey">The primary key of the user table to use within the link table to match the user to an achievement.</param>
-        public DatabaseInfoStruct(string connection, string linkTable, string achievementTable, string userTable, string userKey)
+        public DatabaseInfoStruct(string linkTable, string achievementTable, string userTable, string userKey)
         {
-            this.connection = connection;
             this.linkTable = linkTable;
             this.achievementTable = achievementTable;
             this.userTable = userTable;

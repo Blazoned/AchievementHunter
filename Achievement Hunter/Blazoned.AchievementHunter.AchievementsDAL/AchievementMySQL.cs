@@ -11,12 +11,28 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
 {
     public class AchievementMySQL : ConnectionMySQL, IAchievementDAL
     {
-        public bool CreateAchievements(AchievementStruct[] connection)
+        public AchievementMySQL(string connectionString)
+            : base(connectionString)
+        {
+
+        }
+
+        public bool CreateAchievement(AchievementStruct achievement)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteAchievements()
+        public bool DeleteAchievement(AchievementStruct achievement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPopulated(IEnumerable<AchievementStruct> achievements)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool PopulateDatabase(AchievementStruct[] achievements)
         {
             throw new NotImplementedException();
         }

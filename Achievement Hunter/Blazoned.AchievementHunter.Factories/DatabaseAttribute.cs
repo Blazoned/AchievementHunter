@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
+namespace Blazoned.AchievementHunter.Factories
 {
     public class DatabaseAttribute : Attribute
     {

@@ -9,6 +9,7 @@ namespace Blazoned.AchievementHunter.Extentions
 {
     public static class HashtableExtentionMethods
     {
+        #region Extention Methods
         /// <summary>
         /// Adds the specified key and value into the Hashtable only if the item is not already in the collection.
         /// </summary>
@@ -43,5 +44,6 @@ namespace Blazoned.AchievementHunter.Extentions
 
             List<string> apple = new List<string>();
         }
+        #endregion
     }
 }

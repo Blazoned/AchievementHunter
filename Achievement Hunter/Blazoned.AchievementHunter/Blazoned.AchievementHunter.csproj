@@ -51,6 +51,10 @@
       <Project>{38b4c7df-86aa-4cb3-9f7e-43e67d0b87d5}</Project>
       <Name>Blazoned.AchievementHunter.Extentions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.Factories\Blazoned.AchievementHunter.Factories.csproj">
+      <Project>{c7b473bb-f759-4767-82f0-cf709bed7e89}</Project>
+      <Name>Blazoned.AchievementHunter.Factories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj">
       <Project>{4941794a-223e-4e7b-bcf6-afd930eecb84}</Project>
       <Name>Blazoned.AchievementHunter.IDAL</Name>

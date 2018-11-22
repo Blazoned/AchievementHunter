@@ -1,15 +1,24 @@
-﻿using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
-    // TODO: Connection Singleton that varies depending on the DAL
     public interface IConnectable
     {
-        void SetConnection(DatabaseInfoStruct databaseInfo);
+        #region Functions
+        #region Get Data
+        /// <summary>
+        /// Retrieve the database connection object.
+        /// </summary>
+        /// <returns>Returns the database connection object.</returns>
+        IDbConnection GetConnection();
+        #endregion
+        #region Create Data
+        /// <summary>
+        /// Set the database connection.
+        /// </summary>
+        /// <param name="connectionString">The database connection string.</param>
+        void SetConnection(string connectionString);
+        #endregion
+        #endregion
     }
 }
