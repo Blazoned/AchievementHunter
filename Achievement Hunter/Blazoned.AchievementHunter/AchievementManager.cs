@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blazoned.AchievementHunter.Factories;
+using Blazoned.AchievementHunter.IDAL.Structs;
 
 namespace Blazoned.AchievementHunter
 {
@@ -21,7 +22,7 @@ namespace Blazoned.AchievementHunter
         /// <returns>Returns the achievement value corresponding to the identifier. Returns null if no such achievement exists.</returns>
         public Achievement this[string userID, string achievementID]
         {
-            get { return (Achievement)_achievements[userID][achievementID]; }
+            get { return (Achievement)_achievements[userID].Where(achievement => achievement.ID == achievementID); }
         }
         #endregion
 
@@ -29,19 +30,40 @@ namespace Blazoned.AchievementHunter
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
         /// The string value represents the user identifier, whereas the Hashtable contains the achievements for the specified user.
-        private Dictionary<string, Hashtable> _achievements;
+        private Dictionary<string, List<Achievement>> _achievements;
         #endregion
 
         #region Constructor
         public AchievementManager()
         {
-
+            _achievements = new Dictionary<string, List<Achievement>>();
         }
         #endregion
 
         #region Functions
         #region Achievements
-        #region Add
+        #region Get
+        /// <summary>
+        /// Load the specified user into the achievement manager.
+        /// </summary>
+        /// <param name="userId">The identifier of the user for whom to retrieve their achievements.</param>
+        public void LoadUserProgress(string userId)
+        {
+            List<AchievementProgressionStruct> achievements = new List<AchievementProgressionStruct>(
+                ConnectionMethodFactoryProxy.GetInstance().GetUserAchievements(userId));
+
+            List<Achievement> achievementProgress = new List<Achievement>();
+
+            foreach (var achievement in achievements)
+            {
+                achievementProgress.Add(new Achievement(achievement));
+            }
+
+            _achievements.Add(userId, achievementProgress);
+        }
+        #endregion
+
+        #region Create
         /// <summary>
         /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
         /// </summary>
@@ -97,31 +119,19 @@ namespace Blazoned.AchievementHunter
         }
         #endregion
 
-        #region Load
-        /// <summary>
-        /// Load all the users into the achievement manager.
-        /// </summary>
-        public void LoadProgress()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// Load the specified user into the achievement manager.
-        /// </summary>
-        /// <param name="identifier">The user identifier of the user for which to retrieve their achievements.</param>
-        public void LoadProgress(string identifier)
-        {
-            throw new NotImplementedException();
-        }
+        #region Update
         /// <summary>
         /// Reload the achievements from the configuration file. This also clears the achievement manager.
         /// </summary>
-        public void ReloadAchievements()
+        public void ResetAchievements()
         {
             _achievements.Clear();
-
-            var factory = ConnectionMethodFactoryProxy.GetInstance();
+            ConnectionMethodFactoryProxy.GetInstance().ResetDatabase();
         }
+        #endregion
+
+        #region Delete
+
         #endregion
         #endregion
 

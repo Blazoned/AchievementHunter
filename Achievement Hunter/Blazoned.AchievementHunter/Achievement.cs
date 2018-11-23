@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blazoned.AchievementHunter.IDAL.Structs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,7 +59,7 @@ namespace Blazoned.AchievementHunter
         public EAchievementType AchievementType { get; private set; }
         #endregion
 
-        #region Constructor
+        #region Constructors
         /// <summary>
         /// Instantiate an achievement object.
         /// </summary>
@@ -89,6 +90,21 @@ namespace Blazoned.AchievementHunter
             this.Counter = counter;
             this.IsCompleted = isCompleted;
         }
+        /// <summary>
+        /// Instantiate an achievement object from struct data.
+        /// </summary>
+        /// <param name="achievementData"></param>
+        public Achievement(AchievementProgressionStruct achievementData)
+            : this(achievementData.achievement.id,
+                   achievementData.achievement.title,
+                   achievementData.achievement.description,
+                   achievementData.achievement.score,
+                   achievementData.achievement.goal,
+                   achievementData.counter,
+                   achievementData.isCompleted)
+        {
+            
+        }
         #endregion
 
         #region Functions
@@ -96,7 +112,7 @@ namespace Blazoned.AchievementHunter
         /// Triggers the achievement to be completed if the achievement is triggerable.
         /// </summary>
         /// <returns>Returns true if the achievement has been completed because of the trigger, else returns false.</returns>
-        public bool Trigger()
+        internal bool Trigger()
         {
             if (AchievementType == EAchievementType.Trigger && !_isCompleted)
             {
@@ -110,7 +126,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="count">The score to which to set the goal counter.</param>
         /// <returns>Returns true if the achievement has been completed because of the set counter, else returns false.</returns>
-        public bool SetCounter(int count)
+        internal bool SetCounter(int count)
         {
             if (AchievementType == EAchievementType.Score && !_isCompleted)
             {
@@ -127,7 +143,7 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="increment">The amount to add to the goal counter.</param>
         /// <returns>Returns true if the achievement has been cokmpleted because of the counter increment, else returns false.</returns>
-        public bool IncreaseCounter(int increment = 1)
+        internal bool IncreaseCounter(int increment = 1)
         {
             if (AchievementType == EAchievementType.Score && !_isCompleted)
             {

@@ -10,6 +10,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
     public interface IConfigurationDAL
     {
         #region Functions
+        #region Get Data
         /// <summary>
         /// Get the connection and its database type.
         /// </summary>
@@ -25,6 +26,23 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
         /// </summary>
         /// <returns>Returns the achievements to push to the database.</returns>
         IEnumerable<AchievementStruct> GetAchievementDatabaseConfiguration();
+        #endregion
+
+        #region Create Data
+        /// <summary>
+        /// Add an achievement to the configuration file.
+        /// </summary>
+        /// <param name="achievement">The achievement data to add to the configuration file.</param>
+        void AddAchievement(AchievementStruct achievement);
+        #endregion
+
+        #region Delete Data
+        /// <summary>
+        /// Remove an achievement from the configuration file.
+        /// </summary>
+        /// <param name="achievementId">The id of the achievement which to remove from the configuration file.</param>
+        void RemoveAchievement(string achievementId);
+        #endregion
         #endregion
     }
 }
