@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Blazoned.AchievementHunter.Factories
 {
     public interface IConnectionMethodFactory
-    {
+    {        
         IDBPrepDAL GetDBPreparationDataAccess();
         IAchievementDAL GetAchievementDataAccess();
         IAchievementProgressionDAL GetAchievementProgressionDataAccess();

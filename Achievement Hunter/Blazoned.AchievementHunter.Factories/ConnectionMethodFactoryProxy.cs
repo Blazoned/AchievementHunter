@@ -12,15 +12,23 @@ using Blazoned.AchievementHunter.DAL.Configuration;
 
 namespace Blazoned.AchievementHunter.Factories
 {
-    // TODO: Combine proxy with pool manager
-    public class ConnectionMethodFactoryProxy : IDisposable
+    // TODO: Turn proxy into singleton and remove object pool
+    public class ConnectionMethodFactoryProxy
     {
         #region Fields
+        /// <summary>
+        /// The global instance of the method factory proxy.
+        /// </summary>
+        private static ConnectionMethodFactoryProxy _instance;
+
+        /// <summary>
+        /// The actual method factory being invoked.
+        /// </summary>
         private IConnectionMethodFactory _connectionMethodFactory;
         #endregion
 
         #region Constructors
-        internal ConnectionMethodFactoryProxy()
+        private ConnectionMethodFactoryProxy()
         {
             IConfigurationDAL configuration = new ConfigurationDAL();
 
@@ -33,6 +41,14 @@ namespace Blazoned.AchievementHunter.Factories
         #endregion
 
         #region Functions
+        public static ConnectionMethodFactoryProxy GetInstance()
+        {
+            if (_instance == null)
+                _instance = new ConnectionMethodFactoryProxy();
+
+            return _instance;
+        }
+
         /// <summary>
         /// Retrieves an instance of the achievement data access.
         /// </summary>
@@ -123,16 +139,6 @@ namespace Blazoned.AchievementHunter.Factories
             }
 
             return true;
-        }
-        #endregion
-
-        #region Dispose
-        /// <summary>
-        /// Return this object back into the connection method factory object pool.
-        /// </summary>
-        public void Dispose()
-        {
-            ConnectionMethodFactoryPool.GetInstance().ReleaseConnectionMethodFactory(this);
         }
         #endregion
         #endregion

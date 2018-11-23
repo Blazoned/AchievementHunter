@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionMethodFactoryPool.cs" />
     <Compile Include="ConnectionMethodFactoryProxy.cs" />
     <Compile Include="DatabaseAttribute.cs" />
     <Compile Include="IConnectionMethodFactory.cs" />
