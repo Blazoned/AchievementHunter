@@ -25,6 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.DAL.Configuration.JSON", "Blazoned.AchievementHunter.DAL.Configuration.JSON\Blazoned.AchievementHunter.DAL.Configuration.JSON.csproj", "{767AAB76-DFEA-40E5-ABC0-51AA038DFBF5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCCE0B5C-A09F-4AFD-BB31-4156D48A8BF3}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.txt = TODO.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
