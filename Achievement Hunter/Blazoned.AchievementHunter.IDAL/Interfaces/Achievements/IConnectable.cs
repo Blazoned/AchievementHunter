@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
-    public interface IConnectable
+    public interface IConnectable : IDisposable
     {
         #region Functions
         #region Get Data

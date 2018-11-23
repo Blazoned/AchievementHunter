@@ -17,12 +17,6 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// <param name="userId">The id of user from whom to retrieve their progression.</param>
         /// <returns>Returns the user's achievement progression.</returns>
         IEnumerable<AchievementProgressionStruct> GetAchievementProgression(string userId);
-        /// <summary>
-        /// Get a list of users' achievement progressions.
-        /// </summary>
-        /// <param name="userIds">The ids of the users from whom to retieve their achievement progression.</param>
-        /// <returns>Returns a list of the users' achievement progression.</returns>
-        IEnumerable<AchievementProgressionStruct>[] GetAchievementProgressions(string[] userIds);
         #endregion
 
         #region Update Data

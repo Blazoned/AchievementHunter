@@ -26,10 +26,6 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         /// <summary>
-        /// The singleton instance of this class.
-        /// </summary>
-        private static AchievementManager _instance;
-        /// <summary>
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
         /// The string value represents the user identifier, whereas the Hashtable contains the achievements for the specified user.
@@ -37,28 +33,13 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Constructor
-        private AchievementManager()
+        public AchievementManager()
         {
-            PopulateAchievements();
+
         }
         #endregion
 
         #region Functions
-        #region Instantiation
-        /// <summary>
-        /// Get the instance of the achievement manager.
-        /// </summary>
-        /// <returns>Returns an instance of the achievement manager.</returns>
-        public AchievementManager GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new AchievementManager();
-            }
-            return _instance;
-        }
-        #endregion
-
         #region Achievements
         #region Add
         /// <summary>
@@ -138,7 +119,8 @@ namespace Blazoned.AchievementHunter
         public void ReloadAchievements()
         {
             _achievements.Clear();
-            PopulateAchievements(true);
+
+            var factory = ConnectionMethodFactoryProxy.GetInstance();
         }
         #endregion
         #endregion
@@ -162,13 +144,7 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Populates the database with the achievements. The achievements have to be specified in the configuration file of the AchievementHunter DLL. By default the database will not be overwritten if they are already populated.
-        /// </summary>
-        private void PopulateAchievements(bool overwriteDatabase = false)
-        {
-            throw new NotImplementedException();
-        }
+        
         #endregion
     }
 }

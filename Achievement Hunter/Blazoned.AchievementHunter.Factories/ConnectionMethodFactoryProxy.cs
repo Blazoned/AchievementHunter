@@ -22,6 +22,10 @@ namespace Blazoned.AchievementHunter.Factories
         private static ConnectionMethodFactoryProxy _instance;
 
         /// <summary>
+        /// The configuration data access.
+        /// </summary>
+        private IConfigurationDAL _configurationDAL;
+        /// <summary>
         /// The actual method factory being invoked.
         /// </summary>
         private IConnectionMethodFactory _connectionMethodFactory;
@@ -30,17 +34,18 @@ namespace Blazoned.AchievementHunter.Factories
         #region Constructors
         private ConnectionMethodFactoryProxy()
         {
-            IConfigurationDAL configuration = new ConfigurationDAL();
+            _configurationDAL = new ConfigurationDAL();
 
-            ConnectionStruct connection = configuration.GetConnection();
+            ConnectionStruct connection = _configurationDAL.GetConnection();
             this._connectionMethodFactory = LoadMethodFactory(connection.databaseType, connection.connectionString);
 
-            PrepareDatabase(configuration.GetDatabaseConfiguration());
-            PopulateDatabase(configuration.GetAchievementDatabaseConfiguration());
+            PrepareDatabase(_configurationDAL.GetDatabaseConfiguration());
+            PopulateDatabase(_configurationDAL.GetAchievementDatabaseConfiguration());
         }
         #endregion
 
         #region Functions
+        #region Instantiation
         public static ConnectionMethodFactoryProxy GetInstance()
         {
             if (_instance == null)
@@ -48,24 +53,103 @@ namespace Blazoned.AchievementHunter.Factories
 
             return _instance;
         }
+        #endregion
 
+        #region Proxy Functions
+        #region Achievements
         /// <summary>
-        /// Retrieves an instance of the achievement data access.
+        /// Adds an achievement to the database and updates the configuration file.
         /// </summary>
-        /// <returns>Returns an achievement data access object.</returns>
-        public IAchievementDAL GetAchievementDataAccess()
+        /// <param name="achievement">The achievement to add to the database.</param>
+        /// <param name="updateConfiguration">Set to true if the configuration file has to be overwritten.</param>
+        /// <returns>Returns false if the database has not been changed.</returns>
+        public bool AddAchievement(AchievementStruct achievement, bool updateConfiguration = false)
         {
-            return _connectionMethodFactory.GetAchievementDataAccess();
-        }
+            using (var achievementsDAL = GetAchievementDataAccess())
+            {
+                if (!achievementsDAL.CreateAchievement(achievement))
+                    return false;
+            }
 
-        /// <summary>
-        /// Retrieves an instance of the achievement progression data access.
-        /// </summary>
-        /// <returns>Returns an achievement progression data access object.</returns>
-        public IAchievementProgressionDAL GetAchievementProgressionDataAccess()
-        {
-            return _connectionMethodFactory.GetAchievementProgressionDataAccess();
+            if (updateConfiguration)
+                _configurationDAL.AddAchievement(achievement);
+
+            return true;
         }
+        /// <summary>
+        /// Removes an achievement from the database and updates the configuration file.
+        /// </summary>
+        /// <param name="achievementId">The id of the achievement which to delete.</param>
+        /// <param name="updateConfiguration">Set to true if the configuration file has to be overwritten.</param>
+        /// <returns>Returns false if the database has not been changed.</returns>
+        public bool RemoveAchievement(string achievementId, bool updateConfiguration = false)
+        {
+            using (var achievementsDAL = GetAchievementDataAccess())
+            {
+                if(achievementsDAL.DeleteAchievement(achievementId))
+                    return false;
+            }
+
+            if (updateConfiguration)
+                _configurationDAL.RemoveAchievement(achievementId);
+
+            return true;
+        }
+        /// <summary>
+        /// Reloads the database using the achievement configuration data.
+        /// </summary>
+        public void ResetDatabase()
+        {
+            using (var achievementsDAL = GetAchievementDataAccess())
+            {
+                achievementsDAL.DeleteAchievements();
+
+                var achievementsConfig = _configurationDAL.GetAchievementDatabaseConfiguration();
+
+                achievementsDAL.PopulateDatabase(achievementsConfig);
+            }
+        }
+        #endregion
+
+        #region Achievement Progress
+        /// <summary>
+        /// Retrieve a user's achievement data.
+        /// </summary>
+        /// <param name="userId">The user from whom to retrieve their data.</param>
+        /// <returns>Returns the user's achievement data.</returns>
+        public IEnumerable<AchievementProgressionStruct> GetUserAchievements(string userId)
+        {
+            using (var achievementProgressionDAL = GetAchievementProgressionDataAccess())
+            {
+                return achievementProgressionDAL.GetAchievementProgression(userId);
+            }
+        }
+        /// <summary>
+        /// Update a user's achievement progress.
+        /// </summary>
+        /// <param name="achievementProgression">The achievement progression data.</param>
+        /// <returns>Returns false if the database has not been changed.</returns>
+        public bool UpdateUserProgression(AchievementProgressionStruct achievementProgression)
+        {
+            using (var achievementProgressionDAL = GetAchievementProgressionDataAccess())
+            {
+                return achievementProgressionDAL.UpdateAchievementProgression(achievementProgression);
+            }
+        }
+        /// <summary>
+        /// Permanently delete a user's achievement data.
+        /// </summary>
+        /// <param name="userId">The user from whom to delete their achievement records.</param>
+        /// <returns>Returns false if the database has not been changed.</returns>
+        public bool DeleteUserData(string userId)
+        {
+            using (var achievementProgressionDAL = GetAchievementProgressionDataAccess())
+            {
+                return achievementProgressionDAL.DeleteUserData(userId);
+            }
+        }
+        #endregion
+        #endregion
         #endregion
 
         #region Methods
@@ -77,6 +161,24 @@ namespace Blazoned.AchievementHunter.Factories
         private IDBPrepDAL GetDBPreparationDataAccess()
         {
             return _connectionMethodFactory.GetDBPreparationDataAccess();
+        }
+
+        /// <summary>
+        /// Retrieves an instance of the achievement data access.
+        /// </summary>
+        /// <returns>Returns an achievement data access object.</returns>
+        private IAchievementDAL GetAchievementDataAccess()
+        {
+            return _connectionMethodFactory.GetAchievementDataAccess();
+        }
+
+        /// <summary>
+        /// Retrieves an instance of the achievement progression data access.
+        /// </summary>
+        /// <returns>Returns an achievement progression data access object.</returns>
+        private IAchievementProgressionDAL GetAchievementProgressionDataAccess()
+        {
+            return _connectionMethodFactory.GetAchievementProgressionDataAccess();
         }
         #endregion
 
