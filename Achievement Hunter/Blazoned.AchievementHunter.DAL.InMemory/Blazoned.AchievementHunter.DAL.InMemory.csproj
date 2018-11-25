@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7B473BB-F759-4767-82F0-CF709BED7E89}</ProjectGuid>
+    <ProjectGuid>{50015831-42EC-41A3-AFAA-979B2BBAECB3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blazoned.AchievementHunter.Factories</RootNamespace>
-    <AssemblyName>Blazoned.AchievementHunter.Factories</AssemblyName>
+    <RootNamespace>Blazoned.AchievementHunter.DAL.InMemory</RootNamespace>
+    <AssemblyName>Blazoned.AchievementHunter.DAL.InMemory</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,34 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionMethodFactoryProxy.cs" />
-    <Compile Include="DatabaseAttribute.cs" />
-    <Compile Include="IConnectionMethodFactory.cs" />
-    <Compile Include="InMemoryMethodFactory.cs" />
-    <Compile Include="MySQLConnectionMethodFactory.cs" />
+    <Compile Include="AchievementInMemory.cs" />
+    <Compile Include="AchievementProgressionInMemory.cs" />
+    <Compile Include="ConnectionInMemory.cs" />
+    <Compile Include="InMemoryDatabase.cs" />
+    <Compile Include="DBPrepInMemory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blazoned.AchievementHunter.AchievementsDAL\Blazoned.AchievementHunter.DAL.MySQL.csproj">
-      <Project>{4de7a291-6f95-4cf7-8488-cf5ed280b066}</Project>
-      <Name>Blazoned.AchievementHunter.DAL.MySQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Blazoned.AchievementHunter.DAL.Configuration.JSON\Blazoned.AchievementHunter.DAL.Configuration.JSON.csproj">
-      <Project>{767aab76-dfea-40e5-abc0-51aa038dfbf5}</Project>
-      <Name>Blazoned.AchievementHunter.DAL.Configuration.JSON</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Blazoned.AchievementHunter.DAL.InMemory\Blazoned.AchievementHunter.DAL.InMemory.csproj">
-      <Project>{50015831-42ec-41a3-afaa-979b2bbaecb3}</Project>
-      <Name>Blazoned.AchievementHunter.DAL.InMemory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.Entities\Blazoned.AchievementHunter.Entities.csproj">
       <Project>{0349BFAD-D03F-4BC0-804E-9FC7C9FE91AD}</Project>
       <Name>Blazoned.AchievementHunter.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj">
-      <Project>{4941794a-223e-4e7b-bcf6-afd930eecb84}</Project>
+      <Project>{4941794A-223E-4E7B-BCF6-AFD930EECB84}</Project>
       <Name>Blazoned.AchievementHunter.IDAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,9 @@
 TODO:
 
-- Add an in-memory database with dummy data to test basic functionality
 - Add AspNetCore application to demonstrate the application's functionality (per wish of the client)
+
+-- Fix potential bug: Achievement id exists: Failed to add. (In Achievement Manager)
+
 - Add MySQL database logics in the MySQL DAL
 - Add connection string encryption
 

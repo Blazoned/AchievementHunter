@@ -1,5 +1,5 @@
 {
-  "databaseType" :  "MySQL",
+  "databaseType" :  "InMemory",
   "connection": "INSERT CONNECTION STRING",
   "database": {
     "linkTable": "Link Table Name",
