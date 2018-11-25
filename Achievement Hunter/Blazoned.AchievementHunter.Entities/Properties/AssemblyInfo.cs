@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Blazoned.AchievementHunter.DAL.Configuration")]
+[assembly: AssemblyTitle("Blazoned.AchievementHunter.Entities")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Blazoned.AchievementHunter.DAL.Configuration")]
+[assembly: AssemblyProduct("Blazoned.AchievementHunter.Entities")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("927cc3e4-78b6-40b2-b21a-bae04e370142")]
+[assembly: Guid("0349bfad-d03f-4bc0-804e-9fc7c9fe91ad")]
 
 // Version information for an assembly consists of the following four values:
 //

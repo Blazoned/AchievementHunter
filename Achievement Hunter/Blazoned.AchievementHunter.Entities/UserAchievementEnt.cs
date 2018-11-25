@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazoned.AchievementHunter.IDAL.Structs
+﻿namespace Blazoned.AchievementHunter.Entities
 {
-    public struct AchievementProgressionStruct
+    public struct UserAchievementEnt
     {
         #region Fields
         /// <summary>
@@ -16,7 +10,7 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
         /// <summary>
         /// The achievement about which the progression is.
         /// </summary>
-        public readonly AchievementStruct achievement;
+        public readonly AchievementEnt achievement;
         /// <summary>
         /// The current progress of the achievement.
         /// </summary>
@@ -35,7 +29,7 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
         /// <param name="achievement">The achievement about which the progression is.</param>
         /// <param name="counter">The current progress of the achievement.</param>
         /// <param name="isCompleted">Whether or not the achievement has been completed.</param>
-        public AchievementProgressionStruct(string userId, AchievementStruct achievement, int counter = 0, bool isCompleted = false)
+        public UserAchievementEnt(string userId, AchievementEnt achievement, int counter, bool isCompleted)
         {
             this.userId = userId;
             this.achievement = achievement;

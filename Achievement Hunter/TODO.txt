@@ -1,14 +1,11 @@
 TODO:
 
-- Add data processing to achievement manager
-- Add achievement interactions to achievement manager (per allowing data updates on any effective changes to the achievements)
 - Add an in-memory database with dummy data to test basic functionality
 - Add AspNetCore application to demonstrate the application's functionality (per wish of the client)
 - Add MySQL database logics in the MySQL DAL
+- Add connection string encryption
 
-- Go to sleep.
-- Oh, and perhaps eat.
-- Did I mentioning going to sleep yet?
-- Get a good night of rest.
-- Have a nice snack.
-- And I forgot to mention to wear off your exhaustion.
+# Question: Why and how does this work?
+#
+# List<ClassA> listObj = new List<ClassA>();
+# ClassA obj = (ClassA)listObj;

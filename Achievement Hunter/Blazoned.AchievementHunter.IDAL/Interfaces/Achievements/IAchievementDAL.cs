@@ -1,9 +1,5 @@
-﻿using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
+﻿using Blazoned.AchievementHunter.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
@@ -16,7 +12,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// </summary>
         /// <param name="achievements">The achievements to check for.</param>
         /// <returns>Returns false if there are specified achievements missing in the database.</returns>
-        bool IsPopulated(IEnumerable<AchievementStruct> achievements);
+        bool IsPopulated(IEnumerable<AchievementEnt> achievements);
         #endregion
 
         #region Create Data
@@ -25,13 +21,13 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// </summary>
         /// <param name="achievement">The achievement to add to the database.</param>
         /// <returns>Returns true if the achievement has been added.</returns>
-        bool CreateAchievement(AchievementStruct achievement);
+        bool CreateAchievement(AchievementEnt achievement);
         /// <summary>
         /// Populates the database with the given achievements.
         /// </summary>
         /// <param name="achievements">The list of achievements to populate the database with.</param>
         /// <returns>Returns false if the database has not been updated.</returns>
-        bool PopulateDatabase(IEnumerable<AchievementStruct> achievements);
+        bool PopulateDatabase(IEnumerable<AchievementEnt> achievements);
         #endregion
 
         #region Delete Data

@@ -1,21 +1,24 @@
-﻿using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.Factories;
 
 namespace Blazoned.AchievementHunter
 {
-    public class Achievement
+    public class UserAchievement
     {
         #region Fields
+        /// <summary>
+        /// Retains whether or not the achievement has been completed.
+        /// </summary>
         private bool _isCompleted;
 
         /// <summary>
-        /// Gets the achievement ID.
+        /// Gets the user id.
         /// </summary>
-        public string ID { get; private set; }
+        public string UserId { get; private set; }
+        /// <summary>
+        /// Gets the achievement id.
+        /// </summary>
+        public string Id { get; private set; }
         /// <summary>
         /// Gets the title of the achievement.
         /// </summary>
@@ -63,6 +66,7 @@ namespace Blazoned.AchievementHunter
         /// <summary>
         /// Instantiate an achievement object.
         /// </summary>
+        /// <param name="userId">The user identifier whom to match this achievement with.</param>
         /// <param name="id">The achievement identifier.</param>
         /// <param name="title">The achievement title.</param>
         /// <param name="description">The description or flavour text of the achievement.</param>
@@ -70,9 +74,10 @@ namespace Blazoned.AchievementHunter
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         /// <param name="counter">The current progress of the achievement.</param>
         /// <param name="isCompleted">Whether or not the achievement has been completed.</param>
-        public Achievement(string id, string title, string description, int score, int goal = -1, int counter = 0, bool isCompleted = false)
+        private UserAchievement(string userId, string id, string title, string description, int score, int goal, int counter = 0, bool isCompleted = false)
         {
-            this.ID = id;
+            this.UserId = userId;
+            this.Id = id;
             this.Title = title;
             this.Description = description;
             this.Score = score;
@@ -93,9 +98,10 @@ namespace Blazoned.AchievementHunter
         /// <summary>
         /// Instantiate an achievement object from struct data.
         /// </summary>
-        /// <param name="achievementData"></param>
-        public Achievement(AchievementProgressionStruct achievementData)
-            : this(achievementData.achievement.id,
+        /// <param name="achievementData">The achievement data which to unpack.</param>
+        private UserAchievement(UserAchievementEnt achievementData)
+            : this(achievementData.userId,
+                   achievementData.achievement.id,
                    achievementData.achievement.title,
                    achievementData.achievement.description,
                    achievementData.achievement.score,
@@ -105,6 +111,21 @@ namespace Blazoned.AchievementHunter
         {
             
         }
+        /// <summary>
+        /// Instantiate an achievement object from empty struct data.
+        /// </summary>
+        /// <param name="userId">The user whom to match the data to.</param>
+        /// <param name="achievement">The achievement data which to unpack.</param>
+        internal UserAchievement(string userId, AchievementEnt achievement)
+            : this(userId,
+                   achievement.id,
+                   achievement.title,
+                   achievement.description,
+                   achievement.score,
+                   achievement.goal)
+        {
+
+        }
         #endregion
 
         #region Functions
@@ -112,11 +133,15 @@ namespace Blazoned.AchievementHunter
         /// Triggers the achievement to be completed if the achievement is triggerable.
         /// </summary>
         /// <returns>Returns true if the achievement has been completed because of the trigger, else returns false.</returns>
-        internal bool Trigger()
+        public bool Trigger()
         {
             if (AchievementType == EAchievementType.Trigger && !_isCompleted)
             {
-                return IsCompleted = true;
+                IsCompleted = true;
+
+                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+
+                return IsCompleted;
             }
 
             return false;
@@ -125,36 +150,71 @@ namespace Blazoned.AchievementHunter
         /// Sets the goal counter of the achievement.
         /// </summary>
         /// <param name="count">The score to which to set the goal counter.</param>
-        /// <returns>Returns true if the achievement has been completed because of the set counter, else returns false.</returns>
-        internal bool SetCounter(int count)
+        /// <returns>Returns true if the achievement has been completed because of the new counter value, else returns false.</returns>
+        public bool SetCounter(int count)
         {
             if (AchievementType == EAchievementType.Score && !_isCompleted)
             {
                 Counter = count;
-
                 LimitCounter();
 
-                return IsCompleted;
+                bool returnVal = IsCompleted;
+
+                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+
+                return returnVal;
             }
+
             return _isCompleted;
         }
         /// <summary>
         /// Increases the goal counter of the achievement. This function also accepts negative increments.
         /// </summary>
         /// <param name="increment">The amount to add to the goal counter.</param>
-        /// <returns>Returns true if the achievement has been cokmpleted because of the counter increment, else returns false.</returns>
-        internal bool IncreaseCounter(int increment = 1)
+        /// <returns>Returns true if the achievement has been completed because of the new counter value, else returns false.</returns>
+        public bool IncreaseCounter(int increment = 1)
         {
             if (AchievementType == EAchievementType.Score && !_isCompleted)
             {
                 Counter += increment;
-
                 LimitCounter();
 
-                return IsCompleted;
+                bool returnVal = IsCompleted;
+
+                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+
+                return returnVal;
             }
 
             return false;
+        }
+        #endregion
+
+        #region Conversion Operations
+        /// <summary>
+        /// Convert an achievement object to an achievement entity.
+        /// </summary>
+        /// <param name="achievement">The entity to convert.</param>
+        public static implicit operator UserAchievementEnt(UserAchievement achievement)
+        {
+            return new UserAchievementEnt(
+                   achievement.UserId,
+                   new AchievementEnt(
+                       achievement.Id,
+                       achievement.Title,
+                       achievement.Description,
+                       achievement.Score,
+                       achievement.Goal),
+                   achievement.Counter,
+                   achievement.IsCompleted);
+        }
+        /// <summary>
+        /// Convert an achievement data stucture to an achievement object.
+        /// </summary>
+        /// <param name="dataStruct">The data structure to convert.</param>
+        public static implicit operator UserAchievement(UserAchievementEnt dataStruct)
+        {
+            return new UserAchievement(dataStruct);
         }
         #endregion
 

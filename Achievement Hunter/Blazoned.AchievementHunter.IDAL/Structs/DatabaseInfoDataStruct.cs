@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazoned.AchievementHunter.IDAL.Structs
+﻿namespace Blazoned.AchievementHunter.IDAL.Structs
 {
-    public struct DatabaseInfoStruct
+    public struct DatabaseInfoDataStruct
     {
         #region Fields
         /// <summary>
@@ -35,7 +29,7 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
         /// <param name="achievementTable">The achievement table that is responsible for storing the globally available achievements.</param>
         /// <param name="userTable">The user table that contains the users which to be linked to their individual achievements progression.</param>
         /// <param name="userKey">The primary key of the user table to use within the link table to match the user to an achievement.</param>
-        public DatabaseInfoStruct(string linkTable, string achievementTable, string userTable, string userKey)
+        public DatabaseInfoDataStruct(string linkTable, string achievementTable, string userTable, string userKey)
         {
             this.linkTable = linkTable;
             this.achievementTable = achievementTable;

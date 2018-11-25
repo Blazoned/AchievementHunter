@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazoned.AchievementHunter.IDAL.Structs
+﻿namespace Blazoned.AchievementHunter.IDAL.Structs
 {
-    public struct ConnectionStruct
+    public struct ConnectionDataStruct
     {
         #region Fields
         /// <summary>
@@ -25,7 +19,7 @@ namespace Blazoned.AchievementHunter.IDAL.Structs
         /// </summary>
         /// <param name="connectionString">The connection string to connect to the database.</param>
         /// <param name="databaseType">The type of database to connect to.</param>
-        public ConnectionStruct(string connectionString, string databaseType)
+        public ConnectionDataStruct(string connectionString, string databaseType)
         {
             this.connectionString = connectionString;
             this.databaseType = databaseType;

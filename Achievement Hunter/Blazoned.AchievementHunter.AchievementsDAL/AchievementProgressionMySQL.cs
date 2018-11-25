@@ -1,4 +1,5 @@
-﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 using Blazoned.AchievementHunter.IDAL.Structs;
 using System;
 using System.Collections.Generic;
@@ -16,27 +17,17 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
 
         }
 
+        public IEnumerable<UserAchievementEnt> GetAchievementProgression(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateAchievementProgression(UserAchievementEnt progression)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeleteUserData(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AchievementProgressionStruct GetAchievementProgression(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AchievementProgressionStruct[] GetAchievementProgressions(string[] userIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AchievementProgressionStruct[] GetAchievementProgressions(int count)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateAchievementProgression(AchievementProgressionStruct progression)
         {
             throw new NotImplementedException();
         }

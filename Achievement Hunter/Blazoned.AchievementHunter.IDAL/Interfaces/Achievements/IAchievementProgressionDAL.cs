@@ -1,9 +1,5 @@
-﻿using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
+﻿using Blazoned.AchievementHunter.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
@@ -15,8 +11,8 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Get a user's achievement progress.
         /// </summary>
         /// <param name="userId">The id of user from whom to retrieve their progression.</param>
-        /// <returns>Returns the user's achievement progression.</returns>
-        IEnumerable<AchievementProgressionStruct> GetAchievementProgression(string userId);
+        /// <returns>Returns a list with the user's achievement progression.</returns>
+        IEnumerable<UserAchievementEnt> GetAchievementProgression(string userId);
         #endregion
 
         #region Update Data
@@ -25,7 +21,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// </summary>
         /// <param name="progression">The user's achievement progress.</param>
         /// <returns>Returns false if there haven't been any changes in the database.</returns>
-        bool UpdateAchievementProgression(AchievementProgressionStruct progression);
+        bool UpdateAchievementProgression(UserAchievementEnt progression);
         #endregion
 
         #region Delete Data

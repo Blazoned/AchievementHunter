@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Blazoned.AchievementHunter.DAL.Configuration;
+using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
+using Blazoned.AchievementHunter.IDAL.Structs;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
-using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using Blazoned.AchievementHunter.IDAL.Structs;
-using Blazoned.AchievementHunter.DAL.Configuration;
 
 namespace Blazoned.AchievementHunter.Factories
 {
@@ -36,7 +34,7 @@ namespace Blazoned.AchievementHunter.Factories
         {
             _configurationDAL = new ConfigurationDAL();
 
-            ConnectionStruct connection = _configurationDAL.GetConnection();
+            ConnectionDataStruct connection = _configurationDAL.GetConnection();
             this._connectionMethodFactory = LoadMethodFactory(connection.databaseType, connection.connectionString);
 
             PrepareDatabase(_configurationDAL.GetDatabaseConfiguration());
@@ -63,7 +61,7 @@ namespace Blazoned.AchievementHunter.Factories
         /// <param name="achievement">The achievement to add to the database.</param>
         /// <param name="updateConfiguration">Set to true if the configuration file has to be overwritten.</param>
         /// <returns>Returns false if the database has not been changed.</returns>
-        public bool AddAchievement(AchievementStruct achievement, bool updateConfiguration = false)
+        public bool AddAchievement(AchievementEnt achievement, bool updateConfiguration = false)
         {
             using (var achievementsDAL = GetAchievementDataAccess())
             {
@@ -117,7 +115,7 @@ namespace Blazoned.AchievementHunter.Factories
         /// </summary>
         /// <param name="userId">The user from whom to retrieve their data.</param>
         /// <returns>Returns the user's achievement data.</returns>
-        public IEnumerable<AchievementProgressionStruct> GetUserAchievements(string userId)
+        public IEnumerable<UserAchievementEnt> GetUserAchievements(string userId)
         {
             using (var achievementProgressionDAL = GetAchievementProgressionDataAccess())
             {
@@ -129,7 +127,7 @@ namespace Blazoned.AchievementHunter.Factories
         /// </summary>
         /// <param name="achievementProgression">The achievement progression data.</param>
         /// <returns>Returns false if the database has not been changed.</returns>
-        public bool UpdateUserProgression(AchievementProgressionStruct achievementProgression)
+        public bool UpdateUserProgression(UserAchievementEnt achievementProgression)
         {
             using (var achievementProgressionDAL = GetAchievementProgressionDataAccess())
             {
@@ -206,7 +204,7 @@ namespace Blazoned.AchievementHunter.Factories
         /// </summary>
         /// <param name="databaseInfo">The database configuration information.</param>
         /// <returns>Returns false if the database is already correctly prepared.</returns>
-        private bool PrepareDatabase(DatabaseInfoStruct databaseInfo)
+        private bool PrepareDatabase(DatabaseInfoDataStruct databaseInfo)
         {
             IDBPrepDAL dbPrepDal = GetDBPreparationDataAccess();
             bool isPrepared = dbPrepDal.IsDatabaseCreated(databaseInfo);
@@ -223,7 +221,7 @@ namespace Blazoned.AchievementHunter.Factories
         /// <param name="achievements">The achievements to populate the database with.</param>
         /// <param name="overwrite">Whether or not to reset the database.</param>
         /// <returns>Returns false if the database population has not been changed.</returns>
-        private bool PopulateDatabase(IEnumerable<AchievementStruct> achievements, bool overwrite = false)
+        private bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = false)
         {
             IAchievementDAL achievementDal = GetAchievementDataAccess();
             
@@ -235,7 +233,7 @@ namespace Blazoned.AchievementHunter.Factories
             if (overwrite)
                 achievementDal.DeleteAchievements();
 
-            foreach(AchievementStruct achievement in achievements)
+            foreach(AchievementEnt achievement in achievements)
             {
                 achievementDal.CreateAchievement(achievement);
             }

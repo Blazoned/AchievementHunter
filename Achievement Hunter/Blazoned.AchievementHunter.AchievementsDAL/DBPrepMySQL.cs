@@ -16,12 +16,12 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
 
         }
 
-        public bool IsDatabaseCreated(DatabaseInfoStruct databaseInfo)
+        public bool IsDatabaseCreated(DatabaseInfoDataStruct databaseInfo)
         {
             throw new NotImplementedException();
         }
 
-        public bool PrepareDatabase(DatabaseInfoStruct databaseInfo)
+        public bool PrepareDatabase(DatabaseInfoDataStruct databaseInfo)
         {
             throw new NotImplementedException();
         }

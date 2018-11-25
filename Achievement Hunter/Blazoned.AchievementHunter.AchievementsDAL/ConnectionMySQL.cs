@@ -1,5 +1,4 @@
 ﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using Blazoned.AchievementHunter.IDAL.Structs;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -25,6 +24,11 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
         }
 
         public void SetConnection(string connectionString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

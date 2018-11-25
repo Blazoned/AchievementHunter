@@ -1,4 +1,5 @@
-﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
 using Blazoned.AchievementHunter.IDAL.Structs;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -13,36 +14,22 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// Get the achievement configuration for a database.
         /// </summary>
         /// <returns>Returns the achievements to push to the database.</returns>
-        public IEnumerable<AchievementStruct> GetAchievementDatabaseConfiguration()
+        public IEnumerable<AchievementEnt> GetAchievementDatabaseConfiguration()
         {
-            dynamic achievementConfigJson = ReadJsonFile("config/data-access.config.json");
-
-            List<AchievementStruct> achievements = new List<AchievementStruct>();
-
-            foreach(var achievement in achievementConfigJson.achievements)
-            {
-                achievements.Add(new AchievementStruct(
-                    achievement.id,
-                    achievement.title,
-                    achievement.description,
-                    achievement.score,
-                    achievement.goal));
-            }
-
-            return achievements;
+            return ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
         }
 
         /// <summary>
         /// Get the connection and its database type.
         /// </summary>
         /// <returns>Returns struct with connection information.</returns>
-        public ConnectionStruct GetConnection()
+        public ConnectionDataStruct GetConnection()
         {
-            dynamic databaseInfoJson = ReadJsonFile("config/data-access.config.json");
+            dynamic databaseInfoJson = ReadJsonFile<dynamic>("config/data-access.config.json");
 
             string connection = ParseConnectionString(databaseInfoJson.connection);
 
-            return new ConnectionStruct(connection,
+            return new ConnectionDataStruct(connection,
                                         databaseInfoJson.databaseType);
         }
 
@@ -50,14 +37,33 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// Get the database configuration.
         /// </summary>
         /// <returns>Returns the configuration for the database.</returns>
-        public DatabaseInfoStruct GetDatabaseConfiguration()
+        public DatabaseInfoDataStruct GetDatabaseConfiguration()
         {
-            dynamic databaseInfoJson = ReadJsonFile("config/data-access.config.json");
+            dynamic databaseInfoJson = ReadJsonFile<dynamic>("config/data-access.config.json");
 
-            return new DatabaseInfoStruct(databaseInfoJson.database.linkTable,
+            return new DatabaseInfoDataStruct(databaseInfoJson.database.linkTable,
                                           databaseInfoJson.database.achievementTable,
                                           databaseInfoJson.database.userTable,
                                           databaseInfoJson.database.userKey);
+        }
+
+        public void AddAchievement(AchievementEnt achievement)
+        {
+            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
+
+            achievementConfigJson.Add(achievement);
+
+            WriteJsonFile("config/data-access.config.json", achievementConfigJson);
+        }
+
+        public void RemoveAchievement(string achievementId)
+        {
+            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
+
+            var achievement = achievementConfigJson.Find(achieve => achieve.id == achievementId);
+            achievementConfigJson.Remove(achievement);
+
+            WriteJsonFile("config/data-access.config.json", achievementConfigJson);
         }
         #endregion
 
@@ -65,13 +71,25 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// <summary>
         /// Parse a json file into a json object.
         /// </summary>
+        /// <typeparam name="T">The object type to deserialise with.</typeparam>
         /// <param name="path">The path of the to-read file.</param>
         /// <returns>Returns the json object stored in the file.</returns>
-        private dynamic ReadJsonFile(string path)
+        private dynamic ReadJsonFile<T>(string path)
         {
             using (StreamReader r = new StreamReader(path))
             {
-                return JsonConvert.DeserializeObject(r.ReadToEnd());
+                return JsonConvert.DeserializeObject<T>(r.ReadToEnd());
+            }
+        }
+
+        public void WriteJsonFile(string path, object obj)
+        {
+            using (StreamWriter w = new StreamWriter(path))
+            {
+                JsonConvert.SerializeObject(obj);
+
+                w.Write(obj);
+                w.Flush();
             }
         }
 

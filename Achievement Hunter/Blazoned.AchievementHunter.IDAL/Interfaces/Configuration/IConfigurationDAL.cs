@@ -1,9 +1,6 @@
-﻿using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.IDAL.Structs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
 {
@@ -15,17 +12,17 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
         /// Get the connection and its database type.
         /// </summary>
         /// <returns>Returns struct with connection information.</returns>
-        ConnectionStruct GetConnection();
+        ConnectionDataStruct GetConnection();
         /// <summary>
         /// Get the database configuration.
         /// </summary>
         /// <returns>Returns the configuration for the database.</returns>
-        DatabaseInfoStruct GetDatabaseConfiguration();
+        DatabaseInfoDataStruct GetDatabaseConfiguration();
         /// <summary>
         /// Get the achievement configuration for a database.
         /// </summary>
         /// <returns>Returns the achievements to push to the database.</returns>
-        IEnumerable<AchievementStruct> GetAchievementDatabaseConfiguration();
+        IEnumerable<AchievementEnt> GetAchievementDatabaseConfiguration();
         #endregion
 
         #region Create Data
@@ -33,7 +30,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
         /// Add an achievement to the configuration file.
         /// </summary>
         /// <param name="achievement">The achievement data to add to the configuration file.</param>
-        void AddAchievement(AchievementStruct achievement);
+        void AddAchievement(AchievementEnt achievement);
         #endregion
 
         #region Delete Data

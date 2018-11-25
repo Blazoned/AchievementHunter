@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazoned.AchievementHunter.DAL.MySQL;
+﻿using Blazoned.AchievementHunter.DAL.MySQL;
 using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 
 namespace Blazoned.AchievementHunter.Factories

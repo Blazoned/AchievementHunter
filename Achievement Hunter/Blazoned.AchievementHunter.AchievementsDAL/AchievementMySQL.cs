@@ -1,5 +1,5 @@
-﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using Blazoned.AchievementHunter.IDAL.Structs;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,22 +17,27 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
 
         }
 
-        public bool CreateAchievement(AchievementStruct achievement)
+        public bool IsPopulated(IEnumerable<AchievementEnt> achievements)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteAchievement(AchievementStruct achievement)
+        public bool CreateAchievement(AchievementEnt achievement)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsPopulated(IEnumerable<AchievementStruct> achievements)
+        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements)
         {
             throw new NotImplementedException();
         }
 
-        public bool PopulateDatabase(AchievementStruct[] achievements)
+        public bool DeleteAchievement(string achievementId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteAchievements()
         {
             throw new NotImplementedException();
         }

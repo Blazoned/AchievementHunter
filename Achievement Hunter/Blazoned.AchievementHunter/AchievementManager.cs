@@ -1,12 +1,8 @@
-﻿using Blazoned.AchievementHunter.Extentions;
+﻿using Blazoned.AchievementHunter.Entities;
+using Blazoned.AchievementHunter.Factories;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazoned.AchievementHunter.Factories;
-using Blazoned.AchievementHunter.IDAL.Structs;
 
 namespace Blazoned.AchievementHunter
 {
@@ -20,9 +16,9 @@ namespace Blazoned.AchievementHunter
         /// <param name="userID">The user id of the user from which to access the achievements.</param>
         /// <param name="achievementID">The identifier of the achievement.</param>
         /// <returns>Returns the achievement value corresponding to the identifier. Returns null if no such achievement exists.</returns>
-        public Achievement this[string userID, string achievementID]
+        public UserAchievement this[string userID, string achievementID]
         {
-            get { return (Achievement)_achievements[userID].Where(achievement => achievement.ID == achievementID); }
+            get { return (UserAchievement)_achievementListings[userID].Where(achievement => achievement.Id == achievementID); }
         }
         #endregion
 
@@ -30,39 +26,18 @@ namespace Blazoned.AchievementHunter
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
         /// The string value represents the user identifier, whereas the Hashtable contains the achievements for the specified user.
-        private Dictionary<string, List<Achievement>> _achievements;
+        private Dictionary<string, List<UserAchievement>> _achievementListings;
         #endregion
 
         #region Constructor
         public AchievementManager()
         {
-            _achievements = new Dictionary<string, List<Achievement>>();
+            _achievementListings = new Dictionary<string, List<UserAchievement>>();
         }
         #endregion
 
         #region Functions
         #region Achievements
-        #region Get
-        /// <summary>
-        /// Load the specified user into the achievement manager.
-        /// </summary>
-        /// <param name="userId">The identifier of the user for whom to retrieve their achievements.</param>
-        public void LoadUserProgress(string userId)
-        {
-            List<AchievementProgressionStruct> achievements = new List<AchievementProgressionStruct>(
-                ConnectionMethodFactoryProxy.GetInstance().GetUserAchievements(userId));
-
-            List<Achievement> achievementProgress = new List<Achievement>();
-
-            foreach (var achievement in achievements)
-            {
-                achievementProgress.Add(new Achievement(achievement));
-            }
-
-            _achievements.Add(userId, achievementProgress);
-        }
-        #endregion
-
         #region Create
         /// <summary>
         /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
@@ -72,66 +47,117 @@ namespace Blazoned.AchievementHunter
         /// <param name="description">The description or flavour text of the achievement.</param>
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
+        /// <param name="updateConfiguration">Set to true to also add the achievement from the configuration settings.</param>
         /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
-        public bool AddAchievement(string id, string title, string description, int score, int goal = -1)
+        public bool AddAchievement(string id, string title, string description, int score, int goal = -1, bool updateConfiguration = false)
         {
-            return AddAchievement(new Achievement(id, title, description, score, goal));
+            return AddAchievement(new AchievementEnt(id, title, description, score, goal), updateConfiguration);
         }
         /// <summary>
         /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
         /// </summary>
         /// <param name="achievement">The achievement to add to the achievement system.</param>
+        /// <param name="updateConfiguration">Set to true to also add the achievement from the configuration settings.</param>
         /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
-        public bool AddAchievement(Achievement achievement)
+        public bool AddAchievement(AchievementEnt achievement, bool updateConfiguration = false)
         {
-            // TODO: Add a new achievement to the database and check if it already exists or not.
-            bool success = false;
-
-            // TODO: Don't add the achievement if it already exists.
-            if (!success)
+            if (!ConnectionMethodFactoryProxy.GetInstance().AddAchievement(achievement, updateConfiguration))
                 return false;
 
-            // Add the achievements to each user
-            List<string> keys = new List<string>(_achievements.Keys);
-
-            foreach (var key in keys)
+            foreach (var achievementsListing in _achievementListings)
             {
-                _achievements[key].SafeAdd(achievement.ID, achievement);
+                achievementsListing.Value.Add(new UserAchievement(achievementsListing.Key, achievement));
             }
 
             return true;
-        }
-        /// <summary>
-        /// Add a new achievements to the achievement manager. These achievement will also be added to the configuration file and the achievement data.
-        /// </summary>
-        /// <param name="achievements">The achievements to add to the system.</param>
-        public void AddAchievements(Dictionary<string, Achievement> achievements)
-        {
-            // TODO: Add range to database
-
-            // Add the achievements to each user
-            List<string> keys = new List<string>(_achievements.Keys);
-
-            foreach(var key in keys)
-            {
-                _achievements[key].AddRange(new Hashtable(achievements));
-            }
         }
         #endregion
 
         #region Update
         /// <summary>
-        /// Reload the achievements from the configuration file. This also clears the achievement manager.
+        /// Reload the achievements from the configuration file. Existing users in the achievement manager will be updated.
         /// </summary>
         public void ResetAchievements()
         {
-            _achievements.Clear();
+            List<string> loadedUserIds = _achievementListings.Keys.ToList();
+
+            _achievementListings.Clear();
             ConnectionMethodFactoryProxy.GetInstance().ResetDatabase();
+
+            foreach (var userId in loadedUserIds)
+            {
+                LoadUserProgress(userId);
+            }
         }
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Remove an achievement from the data records.
+        /// </summary>
+        /// <param name="achievementId">The achievement which to remove.</param>
+        /// <param name="updateConfiguration">Set to true to also delete the achievement from the configuration settings.</param>
+        /// <returns>Returns false if the database has been unaffected.</returns>
+        public bool DeleteAchievement(string achievementId, bool updateConfiguration = false)
+        {
+            if (!ConnectionMethodFactoryProxy.GetInstance().RemoveAchievement(achievementId, updateConfiguration))
+                return false;
 
+            foreach(var userAchievements in _achievementListings)
+            {
+                userAchievements.Value.Remove(
+                    userAchievements.Value.Where(achievement => achievement.Id == achievementId).FirstOrDefault());
+            }
+
+            return true;
+        }
+        #endregion
+        #endregion
+
+        #region UserAchievements
+        #region Get
+        /// <summary>
+        /// Load the specified user into the achievement manager.
+        /// </summary>
+        /// <param name="userId">The identifier of the user for whom to retrieve their achievements.</param>
+        public void LoadUserProgress(string userId)
+        {
+            List<UserAchievementEnt> achievements = new List<UserAchievementEnt>(
+                ConnectionMethodFactoryProxy.GetInstance().GetUserAchievements(userId));
+
+            List<UserAchievement> achievementProgress = new List<UserAchievement>();
+
+            foreach (var achievement in achievements)
+            {
+                achievementProgress.Add(achievement);
+            }
+
+            _achievementListings.Add(userId, achievementProgress);
+        }
+        #endregion
+
+        #region Delete
+        /// <summary>
+        /// Clear a user's achievement data from the achievement manager.
+        /// </summary>
+        /// <param name="userId">The user whom to clear from memory.</param>
+        public void ClearUserData(string userId)
+        {
+            _achievementListings.Remove(userId);
+        }
+        /// <summary>
+        /// Permanently remove a user's achievement data records.
+        /// </summary>
+        /// <param name="userId">The user whom to remove from the records.</param>
+        /// <returns>Returns false if the database has not been affected.</returns>
+        public bool DeleteUserData(string userId)
+        {
+            if (!ConnectionMethodFactoryProxy.GetInstance().DeleteUserData(userId))
+                return false;
+
+            ClearUserData(userId);
+            return true;
+        }
         #endregion
         #endregion
 
@@ -148,13 +174,26 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         public void Clear()
         {
-            _achievements.Clear();
+            _achievementListings.Clear();
         }
         #endregion
         #endregion
 
         #region Methods
-        
+        /// <summary>
+        /// Convert an achievement entity to its corresponding data structure.
+        /// </summary>
+        /// <param name="achievement">The achievement entity which to extract data from.</param>
+        /// <returns>Returns the data structure which can be used to communicate data transmissions.</returns>
+        private AchievementEnt AchievementEntityToDataStructure(AchievementEnt achievement)
+        {
+            return new AchievementEnt(
+                   achievement.id,
+                   achievement.title,
+                   achievement.description,
+                   achievement.score,
+                   achievement.goal);
+        }
         #endregion
     }
 }

@@ -62,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.Entities\Blazoned.AchievementHunter.Entities.csproj">
+      <Project>{0349BFAD-D03F-4BC0-804E-9FC7C9FE91AD}</Project>
+      <Name>Blazoned.AchievementHunter.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj">
       <Project>{4941794a-223e-4e7b-bcf6-afd930eecb84}</Project>
       <Name>Blazoned.AchievementHunter.IDAL</Name>

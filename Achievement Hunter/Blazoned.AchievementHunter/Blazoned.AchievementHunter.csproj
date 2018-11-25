@@ -41,15 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Achievement.cs" />
+    <Compile Include="UserAchievement.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="EAchievementType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blazoned.AchievementHunter.Extentions\Blazoned.AchievementHunter.Extentions.csproj">
-      <Project>{38b4c7df-86aa-4cb3-9f7e-43e67d0b87d5}</Project>
-      <Name>Blazoned.AchievementHunter.Extentions</Name>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.Entities\Blazoned.AchievementHunter.Entities.csproj">
+      <Project>{0349bfad-d03f-4bc0-804e-9fc7c9fe91ad}</Project>
+      <Name>Blazoned.AchievementHunter.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blazoned.AchievementHunter.Factories\Blazoned.AchievementHunter.Factories.csproj">
       <Project>{c7b473bb-f759-4767-82f0-cf709bed7e89}</Project>
@@ -60,5 +60,6 @@
       <Name>Blazoned.AchievementHunter.IDAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
