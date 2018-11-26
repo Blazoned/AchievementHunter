@@ -26,8 +26,9 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Populates the database with the given achievements.
         /// </summary>
         /// <param name="achievements">The list of achievements to populate the database with.</param>
+        /// <param name="overwrite">Set to true if to overwrite the existing achievements.</param>
         /// <returns>Returns false if the database has not been updated.</returns>
-        bool PopulateDatabase(IEnumerable<AchievementEnt> achievements);
+        bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = true);
         #endregion
 
         #region Delete Data

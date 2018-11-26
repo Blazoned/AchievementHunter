@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.DAL.InMemory", "Blazoned.AchievementHunter.DAL.InMemory\Blazoned.AchievementHunter.DAL.InMemory.csproj", "{50015831-42EC-41A3-AFAA-979B2BBAECB3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interfaces", "User Interfaces", "{ACC8CE88-C80A-44FD-89D5-D09A83F41815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.UserInterfaces.AspNetCore", "Blazoned.AchievementHunter.UserInterfaces.AspNetCore\Blazoned.AchievementHunter.UserInterfaces.AspNetCore.csproj", "{8164D809-78EE-4270-AB10-4D5AC04EE8FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +70,10 @@ Global
 		{50015831-42EC-41A3-AFAA-979B2BBAECB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50015831-42EC-41A3-AFAA-979B2BBAECB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50015831-42EC-41A3-AFAA-979B2BBAECB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8164D809-78EE-4270-AB10-4D5AC04EE8FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8164D809-78EE-4270-AB10-4D5AC04EE8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8164D809-78EE-4270-AB10-4D5AC04EE8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8164D809-78EE-4270-AB10-4D5AC04EE8FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +86,7 @@ Global
 		{767AAB76-DFEA-40E5-ABC0-51AA038DFBF5} = {7C33E121-AD83-417E-BF50-20B7EBB96B3E}
 		{0349BFAD-D03F-4BC0-804E-9FC7C9FE91AD} = {373B2958-5C96-4CA0-8F0F-94C7A0C01F25}
 		{50015831-42EC-41A3-AFAA-979B2BBAECB3} = {7C33E121-AD83-417E-BF50-20B7EBB96B3E}
+		{8164D809-78EE-4270-AB10-4D5AC04EE8FC} = {ACC8CE88-C80A-44FD-89D5-D09A83F41815}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25CE54FB-D319-4DF9-9A7E-F6DCEDC128AC}

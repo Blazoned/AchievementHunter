@@ -26,13 +26,13 @@ namespace Blazoned.AchievementHunter
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
         /// The string value represents the user identifier, whereas the Hashtable contains the achievements for the specified user.
-        private Dictionary<string, List<UserAchievement>> _achievementListings;
+        private Dictionary<string, SortedSet<UserAchievement>> _achievementListings;
         #endregion
 
         #region Constructor
         public AchievementManager()
         {
-            _achievementListings = new Dictionary<string, List<UserAchievement>>();
+            _achievementListings = new Dictionary<string, SortedSet<UserAchievement>>();
         }
         #endregion
 
@@ -48,28 +48,23 @@ namespace Blazoned.AchievementHunter
         /// <param name="score">The score granted by the achievement.</param>
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         /// <param name="updateConfiguration">Set to true to also add the achievement from the configuration settings.</param>
-        /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
-        public bool AddAchievement(string id, string title, string description, int score, int goal = -1, bool updateConfiguration = false)
+        public void AddAchievement(string id, string title, string description, int score, int goal = -1, bool updateConfiguration = false)
         {
-            return AddAchievement(new AchievementEnt(id, title, description, score, goal), updateConfiguration);
+            AddAchievement(new AchievementEnt(id, title, description, score, goal), updateConfiguration);
         }
         /// <summary>
         /// Add a new achievement to the achievement manager. This achievement will also be added to the configuration file and the achievement data.
         /// </summary>
         /// <param name="achievement">The achievement to add to the achievement system.</param>
         /// <param name="updateConfiguration">Set to true to also add the achievement from the configuration settings.</param>
-        /// <returns>Returns false if the achievement already exists. Else returns true.</returns>
-        public bool AddAchievement(AchievementEnt achievement, bool updateConfiguration = false)
+        public void AddAchievement(AchievementEnt achievement, bool updateConfiguration = false)
         {
-            if (!ConnectionMethodFactoryProxy.GetInstance().AddAchievement(achievement, updateConfiguration))
-                return false;
+            ConnectionMethodFactoryProxy.GetInstance().AddAchievement(achievement, updateConfiguration);
 
             foreach (var achievementsListing in _achievementListings)
             {
                 achievementsListing.Value.Add(new UserAchievement(achievementsListing.Key, achievement));
             }
-
-            return true;
         }
         #endregion
 
@@ -97,19 +92,15 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="achievementId">The achievement which to remove.</param>
         /// <param name="updateConfiguration">Set to true to also delete the achievement from the configuration settings.</param>
-        /// <returns>Returns false if the database has been unaffected.</returns>
-        public bool DeleteAchievement(string achievementId, bool updateConfiguration = false)
+        public void DeleteAchievement(string achievementId, bool updateConfiguration = false)
         {
-            if (!ConnectionMethodFactoryProxy.GetInstance().RemoveAchievement(achievementId, updateConfiguration))
-                return false;
+            ConnectionMethodFactoryProxy.GetInstance().RemoveAchievement(achievementId, updateConfiguration);
 
             foreach(var userAchievements in _achievementListings)
             {
                 userAchievements.Value.Remove(
                     userAchievements.Value.Where(achievement => achievement.Id == achievementId).FirstOrDefault());
             }
-
-            return true;
         }
         #endregion
         #endregion
@@ -125,7 +116,7 @@ namespace Blazoned.AchievementHunter
             List<UserAchievementEnt> achievements = new List<UserAchievementEnt>(
                 ConnectionMethodFactoryProxy.GetInstance().GetUserAchievements(userId));
 
-            List<UserAchievement> achievementProgress = new List<UserAchievement>();
+            SortedSet<UserAchievement> achievementProgress = new SortedSet<UserAchievement>();
 
             foreach (var achievement in achievements)
             {
@@ -149,14 +140,10 @@ namespace Blazoned.AchievementHunter
         /// Permanently remove a user's achievement data records.
         /// </summary>
         /// <param name="userId">The user whom to remove from the records.</param>
-        /// <returns>Returns false if the database has not been affected.</returns>
-        public bool DeleteUserData(string userId)
+        public void DeleteUserData(string userId)
         {
-            if (!ConnectionMethodFactoryProxy.GetInstance().DeleteUserData(userId))
-                return false;
-
+            ConnectionMethodFactoryProxy.GetInstance().DeleteUserData(userId);
             ClearUserData(userId);
-            return true;
         }
         #endregion
         #endregion
@@ -180,20 +167,7 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Convert an achievement entity to its corresponding data structure.
-        /// </summary>
-        /// <param name="achievement">The achievement entity which to extract data from.</param>
-        /// <returns>Returns the data structure which can be used to communicate data transmissions.</returns>
-        private AchievementEnt AchievementEntityToDataStructure(AchievementEnt achievement)
-        {
-            return new AchievementEnt(
-                   achievement.id,
-                   achievement.title,
-                   achievement.description,
-                   achievement.score,
-                   achievement.goal);
-        }
+
         #endregion
     }
 }

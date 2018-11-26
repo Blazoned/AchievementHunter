@@ -71,9 +71,12 @@ namespace Blazoned.AchievementHunter.DAL.InMemory.Database
             return true;
         }
 
-        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements)
+        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite)
         {
-            _achievements = new List<AchievementEnt>(achievements);
+            if (overwrite)
+                _achievements = new List<AchievementEnt>(achievements);
+            else
+                _achievements.AddRange(achievements);
 
             return true;
         }

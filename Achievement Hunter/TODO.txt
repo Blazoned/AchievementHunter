@@ -1,8 +1,9 @@
 TODO:
 
 - Add AspNetCore application to demonstrate the application's functionality (per wish of the client)
-
--- Fix potential bug: Achievement id exists: Failed to add. (In Achievement Manager)
+-- Test with unit tests
+--- Add exception handling for adding and removing new achievements.
+--- Change connection config to accept a different datapath (optional)
 
 - Add MySQL database logics in the MySQL DAL
 - Add connection string encryption

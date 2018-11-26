@@ -28,9 +28,9 @@ namespace Blazoned.AchievementHunter.DAL.InMemory
             return InMemoryDatabase.GetInstance().CreateAchievement(achievement);
         }
 
-        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements)
+        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = true)
         {
-            return InMemoryDatabase.GetInstance().PopulateDatabase(achievements);
+            return InMemoryDatabase.GetInstance().PopulateDatabase(achievements, overwrite);
         }
 
         public bool DeleteAchievement(string achievementId)

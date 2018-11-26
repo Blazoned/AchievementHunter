@@ -27,7 +27,7 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
             throw new NotImplementedException();
         }
 
-        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements)
+        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = true)
         {
             throw new NotImplementedException();
         }
