@@ -16,7 +16,7 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
         /// <summary>
         /// The connection to use.
         /// </summary>
-        private IConnectable _connectable;
+        private IConnectionDAL _connectable;
         #endregion
 
         #region Constructors
@@ -24,7 +24,7 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
         /// Instantiate the achievement progression data access object.
         /// </summary>
         /// <param name="connectable">The connection object.</param>
-        public AchievementProgressionMySQL(IConnectable connectable)
+        public AchievementProgressionMySQL(IConnectionDAL connectable)
         {
             this._connectable = connectable;
         }

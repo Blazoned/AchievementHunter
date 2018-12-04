@@ -16,7 +16,7 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
         /// <summary>
         /// The connection to use.
         /// </summary>
-        private IConnectable _connectable;
+        private IConnectionDAL _connectable;
         /// <summary>
         /// The configuration data access to use.
         /// </summary>
@@ -29,7 +29,7 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
         /// </summary>
         /// <param name="connectable">The connection object.</param>
         /// <param name="configurationDAL">The configuration data access.</param>
-        public AchievementMySQL(IConnectable connectable, IConfigurationDAL configurationDAL)
+        public AchievementMySQL(IConnectionDAL connectable, IConfigurationDAL configurationDAL)
         {
             this._connectable = connectable;
             this._configurationDAL = configurationDAL;

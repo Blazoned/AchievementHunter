@@ -9,14 +9,14 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
         /// <summary>
         /// Creates a new container builder and adds the achievement hunter library to it.
         /// </summary>
-        /// <param name="databaseLibraryNamespace">The namespace of the database access library.</param>
-        /// <param name="dataAccessConfigurationLibraryNamespace">The namespace of the data access configuration library.</param>
+        /// <param name="databaseLibraryPath">The path of the database access library file.</param>
+        /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
         /// <returns>Returns an autofac builder populated with the configuration container.</returns>
-        public static ContainerBuilder ConfigureBuilder(string databaseLibraryNamespace, string dataAccessConfigurationLibraryNamespace)
+        public static ContainerBuilder ConfigureBuilder(string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            ConfigureBuilder(ref builder, databaseLibraryNamespace, dataAccessConfigurationLibraryNamespace);
+            ConfigureBuilder(ref builder, databaseLibraryPath, dataAccessConfigurationLibraryPath);
 
             return builder;
         }
@@ -24,9 +24,9 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
         /// Configures an already existing container builder by adding the achievement hunter library to it.
         /// </summary>
         /// <param name="builder">The builder to configure.</param>
-        /// <param name="databaseLibraryNamespace">The namespace of the database access library.</param>
-        /// <param name="dataAccessConfigurationLibraryNamespace">The namespace of the data access configuration library.</param>
-        public static void ConfigureBuilder(ref ContainerBuilder builder, string databaseLibraryNamespace, string dataAccessConfigurationLibraryNamespace)
+        /// <param name="databaseLibraryPath">The path of the database access library file.</param>
+        /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
+        public static void ConfigureBuilder(ref ContainerBuilder builder, string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
             if (builder == null)
                 builder = new ContainerBuilder();
@@ -35,7 +35,7 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
             builder.RegisterType<AchievementManager>().InstancePerLifetimeScope();
 
             // Register the data access configuration
-            builder.RegisterAssemblyTypes(Assembly.Load(dataAccessConfigurationLibraryNamespace))
+            builder.RegisterAssemblyTypes(Assembly.LoadFile(dataAccessConfigurationLibraryPath))
                 .Where(t => t.GetInterfaces()
                              .Where(i => t.Name.Contains(i.Name.Substring(1)))
                                                .Count() >= 1)
@@ -44,7 +44,7 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
                 .InstancePerLifetimeScope();
 
             // Register the data access layer
-            builder.RegisterAssemblyTypes(Assembly.Load(databaseLibraryNamespace))
+            builder.RegisterAssemblyTypes(Assembly.LoadFile(databaseLibraryPath))
                 .Where(t => t.GetInterfaces()
                              .Where(i => t.Name.Contains(i.Name.Replace("DAL", "")
                                                                .Substring(1)))
@@ -58,23 +58,23 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
         /// <summary>
         /// Create an autofac IoC container.
         /// </summary>
-        /// <param name="databaseLibraryNamespace">The namespace of the database access library.</param>
-        /// <param name="dataAccessConfigurationLibraryNamespace">The namespace of the data access configuration library.</param>
+        /// <param name="databaseLibraryPath">The path of the database access library file.</param>
+        /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
         /// <returns>Returns an autofac container.</returns>
-        public static IContainer ConfigureContainer(string databaseLibraryNamespace, string dataAccessConfigurationLibraryNamespace)
+        public static IContainer ConfigureContainer(string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
-            return ConfigureBuilder(databaseLibraryNamespace, dataAccessConfigurationLibraryNamespace).Build();
+            return ConfigureBuilder(databaseLibraryPath, dataAccessConfigurationLibraryPath).Build();
         }
         /// <summary>
         /// Create an autofac IoC container.
         /// </summary>
         /// <param name="builder">The builder to configure.</param>
-        /// <param name="databaseLibraryNamespace">The namespace of the database access library.</param>
-        /// <param name="dataAccessConfigurationLibraryNamespace">The namespace of the data access configuration library.</param>
+        /// <param name="databaseLibraryPath">The path of the database access library file.</param>
+        /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
         /// <returns>Returns an autofac container.</returns>
-        public static IContainer ConfigureContainer(ContainerBuilder builder, string databaseLibraryNamespace, string dataAccessConfigurationLibraryNamespace)
+        public static IContainer ConfigureContainer(ContainerBuilder builder, string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
-            ConfigureBuilder(ref builder, databaseLibraryNamespace, dataAccessConfigurationLibraryNamespace);
+            ConfigureBuilder(ref builder, databaseLibraryPath, dataAccessConfigurationLibraryPath);
 
             return builder.Build();
         }

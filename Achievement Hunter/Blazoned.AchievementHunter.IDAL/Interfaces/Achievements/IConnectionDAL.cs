@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
-    public interface IConnectable : IDisposable
+    public interface IConnectionDAL : IDisposable
     {
         #region Functions
         /// <summary>

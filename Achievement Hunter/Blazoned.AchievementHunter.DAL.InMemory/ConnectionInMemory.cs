@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Blazoned.AchievementHunter.DAL.InMemory
 {
-    public abstract class ConnectionInMemory : IConnectable
+    public abstract class ConnectionInMemory : IConnectionDAL
     {
         public ConnectionInMemory()
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.DAL.MySQL
 {
-    public abstract class ConnectionMySQL : IConnectable
+    public abstract class ConnectionMySQL : IConnectionDAL
     {
         #region Fields
         /// <summary>

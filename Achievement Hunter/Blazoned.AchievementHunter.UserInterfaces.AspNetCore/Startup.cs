@@ -31,7 +31,7 @@ namespace Blazoned.AchievementHunter.UserInterfaces.AspNetCore
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Setup Autofac with the Achievement Hunter Library
-            ContainerBuilder builder = AchievementHunterContainerConfigurationManager.ConfigureBuilder(nameof(DAL.InMemory), nameof(DAL.Configuration));
+            ContainerBuilder builder = AchievementHunterContainerConfigurationManager.ConfigureBuilder(typeof(DAL.InMemory.ConnectionInMemory).Assembly.Location, typeof(DAL.Configuration.ConfigurationDAL).Assembly.Location);
 
             // Add ASP.NET Core-registered services (in this case just Mvc) to the Autofac container builder
             builder.Populate(services);
