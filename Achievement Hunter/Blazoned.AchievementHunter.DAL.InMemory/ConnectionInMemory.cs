@@ -1,10 +1,5 @@
 ﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.DAL.InMemory
 {
@@ -15,14 +10,14 @@ namespace Blazoned.AchievementHunter.DAL.InMemory
             
         }
 
-        public IDbConnection GetConnection()
+        public IDbConnection OpenConnection()
         {
             return null;
         }
 
-        public void SetConnection(string connectionString)
+        public void CloseConnection()
         {
-            
+
         }
 
         public void Dispose()

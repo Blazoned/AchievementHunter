@@ -1,11 +1,15 @@
 ﻿using Blazoned.AchievementHunter.Entities;
-using Blazoned.AchievementHunter.Factories;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 
 namespace Blazoned.AchievementHunter
 {
     public class UserAchievement
     {
         #region Fields
+        #region Dependencies
+        IAchievementProgressionDAL _achievementProgressionDAL;
+        #endregion
+
         /// <summary>
         /// Retains whether or not the achievement has been completed.
         /// </summary>
@@ -74,8 +78,10 @@ namespace Blazoned.AchievementHunter
         /// <param name="goal">The goal the achievement counter has to reach to be achieved. If it's set to less than 1, the achievement will be treated as triggerable.</param>
         /// <param name="counter">The current progress of the achievement.</param>
         /// <param name="isCompleted">Whether or not the achievement has been completed.</param>
-        private UserAchievement(string userId, string id, string title, string description, int score, int goal, int counter = 0, bool isCompleted = false)
+        private UserAchievement(IAchievementProgressionDAL achievementProgressionDAL, string userId, string id, string title, string description, int score, int goal, int counter = 0, bool isCompleted = false)
         {
+            this._achievementProgressionDAL = achievementProgressionDAL;
+
             this.UserId = userId;
             this.Id = id;
             this.Title = title;
@@ -99,8 +105,9 @@ namespace Blazoned.AchievementHunter
         /// Instantiate an achievement object from struct data.
         /// </summary>
         /// <param name="achievementData">The achievement data which to unpack.</param>
-        private UserAchievement(UserAchievementEnt achievementData)
-            : this(achievementData.userId,
+        internal UserAchievement(IAchievementProgressionDAL achievementProgressionDAL, UserAchievementEnt achievementData)
+            : this(achievementProgressionDAL,
+                   achievementData.userId,
                    achievementData.achievement.id,
                    achievementData.achievement.title,
                    achievementData.achievement.description,
@@ -116,15 +123,16 @@ namespace Blazoned.AchievementHunter
         /// </summary>
         /// <param name="userId">The user whom to match the data to.</param>
         /// <param name="achievement">The achievement data which to unpack.</param>
-        internal UserAchievement(string userId, AchievementEnt achievement)
-            : this(userId,
+        internal UserAchievement(IAchievementProgressionDAL achievementProgressionDAL, string userId, AchievementEnt achievement)
+            : this(achievementProgressionDAL,
+                   userId,
                    achievement.id,
                    achievement.title,
                    achievement.description,
                    achievement.score,
                    achievement.goal)
         {
-
+            this._achievementProgressionDAL.UpdateAchievementProgression(this);
         }
         #endregion
 
@@ -139,7 +147,7 @@ namespace Blazoned.AchievementHunter
             {
                 IsCompleted = true;
 
-                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+                _achievementProgressionDAL.UpdateAchievementProgression(this);
 
                 return IsCompleted;
             }
@@ -160,7 +168,7 @@ namespace Blazoned.AchievementHunter
 
                 bool returnVal = IsCompleted;
 
-                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+                _achievementProgressionDAL.UpdateAchievementProgression(this);
 
                 return returnVal;
             }
@@ -181,7 +189,7 @@ namespace Blazoned.AchievementHunter
 
                 bool returnVal = IsCompleted;
 
-                ConnectionMethodFactoryProxy.GetInstance().UpdateUserProgression(this);
+                _achievementProgressionDAL.UpdateAchievementProgression(this);
 
                 return returnVal;
             }
@@ -207,14 +215,6 @@ namespace Blazoned.AchievementHunter
                        achievement.Goal),
                    achievement.Counter,
                    achievement.IsCompleted);
-        }
-        /// <summary>
-        /// Convert an achievement data stucture to an achievement object.
-        /// </summary>
-        /// <param name="dataStruct">The data structure to convert.</param>
-        public static implicit operator UserAchievement(UserAchievementEnt dataStruct)
-        {
-            return new UserAchievement(dataStruct);
         }
         #endregion
 

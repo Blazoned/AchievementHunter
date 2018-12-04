@@ -1,19 +1,13 @@
 ﻿using Blazoned.AchievementHunter.DAL.InMemory.Database;
 using Blazoned.AchievementHunter.Entities;
 using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.DAL.InMemory
 {
-    public class AchievementProgressionInMemory : ConnectionInMemory, IAchievementProgressionDAL
+    public class AchievementProgressionInMemory : IAchievementProgressionDAL
     {
         public AchievementProgressionInMemory()
-            : base()
         {
 
         }
@@ -23,14 +17,14 @@ namespace Blazoned.AchievementHunter.DAL.InMemory
             return InMemoryDatabase.GetInstance().GetAchievementProgression(userId);
         }
 
-        public bool UpdateAchievementProgression(UserAchievementEnt progression)
+        public void UpdateAchievementProgression(UserAchievementEnt progression)
         {
-            return InMemoryDatabase.GetInstance().UpdateAchievementProgression(progression);
+            InMemoryDatabase.GetInstance().UpdateAchievementProgression(progression);
         }
 
-        public bool DeleteUserData(string userId)
+        public void DeleteUserData(string userId)
         {
-            return InMemoryDatabase.GetInstance().DeleteUserData(userId);
+            InMemoryDatabase.GetInstance().DeleteUserData(userId);
         }
     }
 }

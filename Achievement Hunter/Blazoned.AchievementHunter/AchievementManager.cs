@@ -1,5 +1,5 @@
 ﻿using Blazoned.AchievementHunter.Entities;
-using Blazoned.AchievementHunter.Factories;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,11 @@ namespace Blazoned.AchievementHunter
     public class AchievementManager : IDisposable
     {
         #region Fields
+        #region Dependencies
+        private IAchievementDAL _achievementDAL;
+        private IAchievementProgressionDAL _userAchievementDAL;
+        #endregion
+
         #region Indexers
         /// <summary>
         /// Get an achievement from the achievement manager by its specified id.
@@ -30,8 +35,11 @@ namespace Blazoned.AchievementHunter
         #endregion
 
         #region Constructor
-        public AchievementManager()
+        public AchievementManager(IAchievementDAL achievementDAL, IAchievementProgressionDAL userAchievementDAL)
         {
+            this._achievementDAL = achievementDAL;
+            this._userAchievementDAL = userAchievementDAL;
+
             _achievementListings = new Dictionary<string, SortedSet<UserAchievement>>();
         }
         #endregion
@@ -59,11 +67,11 @@ namespace Blazoned.AchievementHunter
         /// <param name="updateConfiguration">Set to true to also add the achievement from the configuration settings.</param>
         public void AddAchievement(AchievementEnt achievement, bool updateConfiguration = false)
         {
-            ConnectionMethodFactoryProxy.GetInstance().AddAchievement(achievement, updateConfiguration);
+            _achievementDAL.CreateAchievement(achievement, updateConfiguration);
 
             foreach (var achievementsListing in _achievementListings)
             {
-                achievementsListing.Value.Add(new UserAchievement(achievementsListing.Key, achievement));
+                achievementsListing.Value.Add(new UserAchievement(_userAchievementDAL, achievementsListing.Key, achievement));
             }
         }
         #endregion
@@ -77,7 +85,7 @@ namespace Blazoned.AchievementHunter
             List<string> loadedUserIds = _achievementListings.Keys.ToList();
 
             _achievementListings.Clear();
-            ConnectionMethodFactoryProxy.GetInstance().ResetDatabase();
+            _achievementDAL.ResetAchievements();
 
             foreach (var userId in loadedUserIds)
             {
@@ -94,7 +102,7 @@ namespace Blazoned.AchievementHunter
         /// <param name="updateConfiguration">Set to true to also delete the achievement from the configuration settings.</param>
         public void DeleteAchievement(string achievementId, bool updateConfiguration = false)
         {
-            ConnectionMethodFactoryProxy.GetInstance().RemoveAchievement(achievementId, updateConfiguration);
+            _achievementDAL.DeleteAchievement(achievementId, updateConfiguration);
 
             foreach(var userAchievements in _achievementListings)
             {
@@ -114,13 +122,13 @@ namespace Blazoned.AchievementHunter
         public void LoadUserProgress(string userId)
         {
             List<UserAchievementEnt> achievements = new List<UserAchievementEnt>(
-                ConnectionMethodFactoryProxy.GetInstance().GetUserAchievements(userId));
+               _userAchievementDAL.GetAchievementProgression(userId));
 
             SortedSet<UserAchievement> achievementProgress = new SortedSet<UserAchievement>();
 
             foreach (var achievement in achievements)
             {
-                achievementProgress.Add(achievement);
+                achievementProgress.Add(new UserAchievement(_userAchievementDAL, achievement));
             }
 
             _achievementListings.Add(userId, achievementProgress);
@@ -142,7 +150,7 @@ namespace Blazoned.AchievementHunter
         /// <param name="userId">The user whom to remove from the records.</param>
         public void DeleteUserData(string userId)
         {
-            ConnectionMethodFactoryProxy.GetInstance().DeleteUserData(userId);
+            _userAchievementDAL.DeleteUserData(userId);
             ClearUserData(userId);
         }
         #endregion

@@ -9,8 +9,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blazoned.AchievementHunter.DAL.Configuration.JSON\Blazoned.AchievementHunter.DAL.Configuration.JSON.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.DAL.InMemory\Blazoned.AchievementHunter.DAL.InMemory.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.Entities\Blazoned.AchievementHunter.Entities.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.IoC.AspNetCore\Blazoned.AchievementHunter.IoC.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter\Blazoned.AchievementHunter.csproj" />
   </ItemGroup>
 
 </Project>

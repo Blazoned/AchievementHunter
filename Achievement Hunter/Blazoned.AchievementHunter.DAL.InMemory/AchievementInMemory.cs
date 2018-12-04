@@ -1,46 +1,43 @@
 ﻿using Blazoned.AchievementHunter.DAL.InMemory.Database;
 using Blazoned.AchievementHunter.Entities;
 using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
 
 namespace Blazoned.AchievementHunter.DAL.InMemory
 {
-    public class AchievementInMemory : ConnectionInMemory, IAchievementDAL
+    public class AchievementInMemory : IAchievementDAL
     {
-        public AchievementInMemory()
-            : base()
-        {
+        private IConfigurationDAL _configurationDAL;
 
+        public AchievementInMemory(IConfigurationDAL configurationDAL)
+        {
+            this._configurationDAL = configurationDAL;
         }
 
-        public bool IsPopulated(IEnumerable<AchievementEnt> achievements)
+        public bool IsPopulated()
         {
-            return InMemoryDatabase.GetInstance().IsPopulated(achievements);
+            return InMemoryDatabase.GetInstance().IsPopulated(_configurationDAL.GetAchievementDatabaseConfiguration());
         }
 
-        public bool CreateAchievement(AchievementEnt achievement)
+        public void CreateAchievement(AchievementEnt achievement, bool updateConfig = false)
         {
-            return InMemoryDatabase.GetInstance().CreateAchievement(achievement);
+            InMemoryDatabase.GetInstance().CreateAchievement(achievement);
         }
 
-        public bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = true)
+        public void PopulateDatabase(bool overwrite = false)
         {
-            return InMemoryDatabase.GetInstance().PopulateDatabase(achievements, overwrite);
+            InMemoryDatabase.GetInstance().PopulateDatabase(_configurationDAL.GetAchievementDatabaseConfiguration(),
+                                                            overwrite);
         }
 
-        public bool DeleteAchievement(string achievementId)
+        public void DeleteAchievement(string achievementId, bool updateConfig = false)
         {
-            return InMemoryDatabase.GetInstance().DeleteAchievement(achievementId);
+            InMemoryDatabase.GetInstance().DeleteAchievement(achievementId);
         }
 
-        public bool DeleteAchievements()
+        public void ResetAchievements()
         {
-            return InMemoryDatabase.GetInstance().DeleteAchievements();
+            InMemoryDatabase.GetInstance().DeleteAchievements();
         }
     }
 }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
-    public interface IAchievementDAL : IConnectable
+    public interface IAchievementDAL
     {
         #region Functions
         #region Get Data
         /// <summary>
         /// Check if the database is already populated with achievements the given achievements.
         /// </summary>
-        /// <param name="achievements">The achievements to check for.</param>
         /// <returns>Returns false if there are specified achievements missing in the database.</returns>
-        bool IsPopulated(IEnumerable<AchievementEnt> achievements);
+        bool IsPopulated();
         #endregion
 
         #region Create Data
@@ -20,15 +19,13 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Create an achievement in the database.
         /// </summary>
         /// <param name="achievement">The achievement to add to the database.</param>
-        /// <returns>Returns true if the achievement has been added.</returns>
-        bool CreateAchievement(AchievementEnt achievement);
+        /// <param name="updateConfiguration">Set to true if the configuration file has to be overwritten.</param>
+        void CreateAchievement(AchievementEnt achievement, bool updateConfig = false);
         /// <summary>
         /// Populates the database with the given achievements.
         /// </summary>
-        /// <param name="achievements">The list of achievements to populate the database with.</param>
         /// <param name="overwrite">Set to true if to overwrite the existing achievements.</param>
-        /// <returns>Returns false if the database has not been updated.</returns>
-        bool PopulateDatabase(IEnumerable<AchievementEnt> achievements, bool overwrite = true);
+        void PopulateDatabase(bool overwrite = false);
         #endregion
 
         #region Delete Data
@@ -36,13 +33,12 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Delete an achievement in the database.
         /// </summary>
         /// <param name="achievement">The achievement to remove from the database.</param>
-        /// <returns>Returns false if the achievement couldn't be removed.</returns>
-        bool DeleteAchievement(string achievementId);
+        /// <param name="updateConfiguration">Set to true if the configuration file has to be overwritten.</param>
+        void DeleteAchievement(string achievementId, bool updateConfig = false);
         /// <summary>
-        /// Delete all achievements saved in the database.
+        /// Reset all achievements saved in the database.
         /// </summary>
-        /// <returns>Returns false if the database has not made any changes.</returns>
-        bool DeleteAchievements();
+        void ResetAchievements();
         #endregion
         #endregion
     }

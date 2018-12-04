@@ -1,4 +1,5 @@
 ﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Configuration;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -11,26 +12,60 @@ namespace Blazoned.AchievementHunter.DAL.MySQL
 {
     public abstract class ConnectionMySQL : IConnectable
     {
-        protected string _connectionString;
+        #region Fields
+        /// <summary>
+        /// The configuration object for the database.
+        /// </summary>
+        private IConfigurationDAL _configurationDAL;
+        /// <summary>
+        /// The connection object for the database.
+        /// </summary>
+        private IDbConnection _dbConnection;
+        #endregion
 
-        public ConnectionMySQL(string connectionString)
+        #region Constructors
+        /// <summary>
+        /// Instantiate a connection object.
+        /// </summary>
+        /// <param name="configurationDAL">The configuration data acces object.</param>
+        public ConnectionMySQL(IConfigurationDAL configurationDAL)
         {
-            SetConnection(connectionString);
+            this._configurationDAL = configurationDAL;
+            this._dbConnection = new MySqlConnection(_configurationDAL.GetConnection());
         }
+        #endregion
 
-        public IDbConnection GetConnection()
+        #region Functions
+        #region Connection
+        /// <summary>
+        /// Open the database connection.
+        /// </summary>
+        /// <returns>Returns the open database connection object.</returns>
+        public IDbConnection OpenConnection()
         {
-            return new MySqlConnection(_connectionString);
-        }
+            if (_dbConnection.State != ConnectionState.Open)
+                _dbConnection.Open();
 
-        public void SetConnection(string connectionString)
+            return _dbConnection;
+        }
+        /// <summary>
+        /// Closes the database connection.
+        /// </summary>
+        public void CloseConnection()
         {
-            throw new NotImplementedException();
+            _dbConnection.Close();
         }
+        #endregion
 
+        #region Disposable
+        /// <summary>
+        /// Disposes of the object.
+        /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            CloseConnection();
         }
+        #endregion
+        #endregion
     }
 }

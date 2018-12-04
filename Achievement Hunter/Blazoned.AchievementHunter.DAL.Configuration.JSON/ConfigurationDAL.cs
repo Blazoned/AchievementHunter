@@ -23,14 +23,11 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// Get the connection and its database type.
         /// </summary>
         /// <returns>Returns struct with connection information.</returns>
-        public ConnectionDataStruct GetConnection()
+        public string GetConnection()
         {
             dynamic databaseInfoJson = ReadJsonFile<dynamic>("config/data-access.config.json");
 
-            string connection = ParseConnectionString(databaseInfoJson.connection);
-
-            return new ConnectionDataStruct(connection,
-                                        databaseInfoJson.databaseType);
+            return ParseConnectionString(databaseInfoJson.connection);
         }
 
         /// <summary>

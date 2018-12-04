@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
 {
-    public interface IAchievementProgressionDAL : IConnectable
+    public interface IAchievementProgressionDAL
     {
         #region Functions
         #region Get Data
@@ -20,8 +20,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Update a user's achievement progression.
         /// </summary>
         /// <param name="progression">The user's achievement progress.</param>
-        /// <returns>Returns false if there haven't been any changes in the database.</returns>
-        bool UpdateAchievementProgression(UserAchievementEnt progression);
+        void UpdateAchievementProgression(UserAchievementEnt progression);
         #endregion
 
         #region Delete Data
@@ -29,8 +28,7 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
         /// Delete a user's achievement progress.
         /// </summary>
         /// <param name="userId">The user id of the user of whom to delete their achievement data.</param>
-        /// <returns>Returns false if the database has not made any changes.</returns>
-        bool DeleteUserData(string userId);
+        void DeleteUserData(string userId);
         #endregion
         #endregion
     }

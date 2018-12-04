@@ -6,20 +6,15 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Achievements
     public interface IConnectable : IDisposable
     {
         #region Functions
-        #region Get Data
         /// <summary>
-        /// Retrieve the database connection object.
+        /// Open the database connection.
         /// </summary>
-        /// <returns>Returns the database connection object.</returns>
-        IDbConnection GetConnection();
-        #endregion
-        #region Create Data
+        /// <returns>Returns the open database connection object.</returns>
+        IDbConnection OpenConnection();
         /// <summary>
-        /// Set the database connection.
+        /// Closes the database connection.
         /// </summary>
-        /// <param name="connectionString">The database connection string.</param>
-        void SetConnection(string connectionString);
-        #endregion
+        void CloseConnection();
         #endregion
     }
 }

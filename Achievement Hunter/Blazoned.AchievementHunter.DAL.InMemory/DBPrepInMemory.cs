@@ -1,29 +1,22 @@
 ﻿using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
-using Blazoned.AchievementHunter.IDAL.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blazoned.AchievementHunter.DAL.InMemory
 {
-    public class DBPrepInMemory : ConnectionInMemory, IDBPrepDAL
+    public class DBPrepInMemory : IDBPrepDAL
     {
         public DBPrepInMemory()
-            : base()
         {
 
         }
 
-        public bool IsDatabaseCreated(DatabaseInfoDataStruct databaseInfo)
+        public bool IsDatabaseCreated()
         {
             return true;
         }
 
-        public bool PrepareDatabase(DatabaseInfoDataStruct databaseInfo)
+        public void PrepareDatabase()
         {
-            return true;
+            
         }
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Blazoned.AchievementHunter.IoC.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,9 +26,18 @@ namespace Blazoned.AchievementHunter.UserInterfaces.AspNetCore
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Setup Autofac with the Achievement Hunter Library
+            ContainerBuilder builder = AchievementHunterContainerConfigurationManager.ConfigureBuilder(nameof(DAL.InMemory), nameof(DAL.Configuration));
+
+            // Add ASP.NET Core-registered services (in this case just Mvc) to the Autofac container builder
+            builder.Populate(services);
+
+            // Return the DI container for the web application
+            return new AutofacServiceProvider(builder.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -47,7 +47,6 @@
     <Compile Include="Interfaces\Achievements\IConnectable.cs" />
     <Compile Include="Interfaces\Configuration\IConfigurationDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\ConnectionDataStruct.cs" />
     <Compile Include="Structs\DatabaseInfoDataStruct.cs" />
   </ItemGroup>
   <ItemGroup>

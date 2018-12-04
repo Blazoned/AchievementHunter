@@ -11,8 +11,8 @@ namespace Blazoned.AchievementHunter.IDAL.Interfaces.Configuration
         /// <summary>
         /// Get the connection and its database type.
         /// </summary>
-        /// <returns>Returns struct with connection information.</returns>
-        ConnectionDataStruct GetConnection();
+        /// <returns>Returns the connection string.</returns>
+        string GetConnection();
         /// <summary>
         /// Get the database configuration.
         /// </summary>
