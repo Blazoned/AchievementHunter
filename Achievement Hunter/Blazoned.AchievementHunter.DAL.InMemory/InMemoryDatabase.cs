@@ -8,8 +8,7 @@ namespace Blazoned.AchievementHunter.DAL.InMemory.Database
     {
         #region Fields
         private static InMemoryDatabase _instance;
-
-        private List<string> _users;
+        
         private Dictionary<string, List<UserAchievementEnt>> _userAchievements;
         private List<AchievementEnt> _achievements;
         #endregion
@@ -17,14 +16,6 @@ namespace Blazoned.AchievementHunter.DAL.InMemory.Database
         #region Constructor
         private InMemoryDatabase()
         {
-            this._users = new List<string>()
-            {
-                "Blazoned",
-                "Mart",
-                "Romal",
-                "Tom",
-                "TheVerySadCat"
-            };
             this._userAchievements = new Dictionary<string, List<UserAchievementEnt>>();
             this._achievements = new List<AchievementEnt>();
         }

@@ -10,6 +10,14 @@ namespace Blazoned.AchievementHunter.UserInterfaces.AspNetCore.Controllers
     [ApiController]
     public class AchievementsController : ControllerBase
     {
+        private AchievementManager _achievementManager;
+
+        public AchievementsController(AchievementManager achievementManager)
+            : base()
+        {
+            this._achievementManager = achievementManager;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

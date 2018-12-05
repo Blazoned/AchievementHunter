@@ -16,6 +16,25 @@ namespace Blazoned.AchievementHunter
 
         #region Indexers
         /// <summary>
+        /// Get a user's achievements
+        /// </summary>
+        /// <param name="userID">The user id of the user from which to access the achievements.</param>
+        /// <returns>Returns a list of the user's achievements.</returns>
+        public List<UserAchievementEnt> this[string userID]
+        {
+            get
+            {
+                List<UserAchievementEnt> achievements = new List<UserAchievementEnt>();
+                               
+                foreach(UserAchievement achievement in _achievementListings[userID])
+                {
+                    achievements.Add(achievement);
+                }
+
+                return achievements;
+            }
+        }
+        /// <summary>
         /// Get an achievement from the achievement manager by its specified id.
         /// </summary>
         /// <param name="userID">The user id of the user from which to access the achievements.</param>
@@ -31,7 +50,7 @@ namespace Blazoned.AchievementHunter
         /// The list of achievements, on a per user base, maintained with this manager.
         /// </summary>
         /// The string value represents the user identifier, whereas the Hashtable contains the achievements for the specified user.
-        private Dictionary<string, SortedSet<UserAchievement>> _achievementListings;
+        private Dictionary<string, List<UserAchievement>> _achievementListings;
         #endregion
 
         #region Constructor
@@ -40,7 +59,7 @@ namespace Blazoned.AchievementHunter
             this._achievementDAL = achievementDAL;
             this._userAchievementDAL = userAchievementDAL;
 
-            _achievementListings = new Dictionary<string, SortedSet<UserAchievement>>();
+            _achievementListings = new Dictionary<string, List<UserAchievement>>();
         }
         #endregion
 
@@ -124,7 +143,7 @@ namespace Blazoned.AchievementHunter
             List<UserAchievementEnt> achievements = new List<UserAchievementEnt>(
                _userAchievementDAL.GetAchievementProgression(userId));
 
-            SortedSet<UserAchievement> achievementProgress = new SortedSet<UserAchievement>();
+            List<UserAchievement> achievementProgress = new List<UserAchievement>();
 
             foreach (var achievement in achievements)
             {

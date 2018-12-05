@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/api/achievements",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    data.forEach(function (element) {
+                        $("#result").append("<div style='margin-top: 5px; padding-left: 10px; border-style: groove;' id='" + element.achievement.id + "'></div>")
+
+                        $("#" + element.achievement.id).append("<h3>" + element.achievement.title + " (" + element.achievement.score + " pts)</h3>");
+                        $("#" + element.achievement.id).append("<div><h4>Description:</h4>");
+                        $("#" + element.achievement.id).append("<p>\"" + element.achievement.description + "\"</p></div>");
+
+                        if (element.achievement.goal > 0) {
+                            $("#" + element.achievement.id).append("<p class='achieve'>Progress: " + element.counter + "/" + element.achievement.goal + "</p>");
+                        }
+                        else {
+                            var text;
+
+                            if (element.isCompleted)
+                                text = "Achieved!";
+                            else
+                                text = "Achievement has not been completed.";
+
+                            $("#" + element.achievement.id).append("<p class='trigger'>Progress: " + text + "</p>");
+                        }
+
+                        $("#" + element.achievement.id).append("<h6>User: " + element.userId + "</h6>");
+                    });
+                },
+                error: function () {
+                    $("#result").html("Error while calling the Web API!");
+                },
+                complete: function () {
+                    //$(".achieve").click(function () {
+                    //    $.ajax({
+                    //        url: "/api/achievements/increase/" + $(this),
+                    //        type: "PUT",
+                    //        dataType: "json",
+                    //        data:
+                    //        {
+
+                    //        }
+                    //    });
+                    //});
+
+                    //$(".trigger").click(function () {
+
+                    //});
+                }
+            });
+        });
+    </script>
+}
+
+<h2>Index</h2>
+
+<h2>Result of Web API call</h2>
+
+<div id="result"></div>

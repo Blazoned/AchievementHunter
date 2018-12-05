@@ -1,13 +1,19 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Autofac;
+using Blazoned.AchievementHunter.DAL;
+using Blazoned.AchievementHunter.DAL.Configuration;
+using Blazoned.AchievementHunter.DAL.InMemory;
+using Blazoned.AchievementHunter.DAL.MySQL;
+using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 
 namespace Blazoned.AchievementHunter.IoC.AspNetCore
 {
-    public static class AchievementHunterContainerConfigurationManager
+    public static class AchievementHunterServiceManager
     {
+        #region IoC Container
         /// <summary>
-        /// Creates a new container builder and adds the achievement hunter library to it.
+        /// Creates a new container builder and adds the achievement hunter library to it. If the data access layer has not yet been configured, you need to manually do so afterwards.
         /// </summary>
         /// <param name="databaseLibraryPath">The path of the database access library file.</param>
         /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
@@ -21,7 +27,7 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
             return builder;
         }
         /// <summary>
-        /// Configures an already existing container builder by adding the achievement hunter library to it.
+        /// Configures an already existing container builder by adding the achievement hunter library to it. If the data access layer has not yet been configured, you need to manually do so afterwards.
         /// </summary>
         /// <param name="builder">The builder to configure.</param>
         /// <param name="databaseLibraryPath">The path of the database access library file.</param>
@@ -56,27 +62,46 @@ namespace Blazoned.AchievementHunter.IoC.AspNetCore
         }
 
         /// <summary>
-        /// Create an autofac IoC container.
+        /// Create an autofac IoC container. This also configures the achievement hunter library.
         /// </summary>
         /// <param name="databaseLibraryPath">The path of the database access library file.</param>
         /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
         /// <returns>Returns an autofac container.</returns>
-        public static IContainer ConfigureContainer(string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
+        public static IContainer BuildContainer(string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
-            return ConfigureBuilder(databaseLibraryPath, dataAccessConfigurationLibraryPath).Build();
+            IContainer container = ConfigureBuilder(databaseLibraryPath, dataAccessConfigurationLibraryPath).Build();
+
+            ConfigureAchievementHunter(container);
+
+            return container;
         }
         /// <summary>
-        /// Create an autofac IoC container.
+        /// Create an autofac IoC container. This also configures the achievement hunter library.
         /// </summary>
         /// <param name="builder">The builder to configure.</param>
         /// <param name="databaseLibraryPath">The path of the database access library file.</param>
         /// <param name="dataAccessConfigurationLibraryPath">The path of the data access configuration library file.</param>
         /// <returns>Returns an autofac container.</returns>
-        public static IContainer ConfigureContainer(ContainerBuilder builder, string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
+        public static IContainer BuildContainer(ContainerBuilder builder, string databaseLibraryPath, string dataAccessConfigurationLibraryPath)
         {
             ConfigureBuilder(ref builder, databaseLibraryPath, dataAccessConfigurationLibraryPath);
+            IContainer container = builder.Build();
 
-            return builder.Build();
+            ConfigureAchievementHunter(container);
+
+            return container;
         }
+        #endregion
+
+        #region Database Setup
+        private static void ConfigureAchievementHunter(IContainer container)
+        {
+            IDBPrepDAL dBPrepDAL = container.Resolve<IDBPrepDAL>();
+            dBPrepDAL.PrepareDatabase();
+
+            IAchievementDAL achievementDAL = container.Resolve<IAchievementDAL>();
+            achievementDAL.PopulateDatabase();
+        }
+        #endregion
     }
 }

@@ -9,6 +9,25 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
 {
     public class ConfigurationDAL : IConfigurationDAL
     {
+        #region Fields
+        /// <summary>
+        /// Contains the path to the folder which holds the configuration files.
+        /// </summary>
+        private string _configPath;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Instantiates a data access configuration object.
+        /// </summary>
+        public ConfigurationDAL()
+        {
+            string assemblyPath = this.GetType().Assembly.Location;
+
+            this._configPath = assemblyPath.Remove(assemblyPath.LastIndexOf('\\')) + @"\config\";
+        }
+        #endregion
+
         #region Functions
         /// <summary>
         /// Get the achievement configuration for a database.
@@ -16,7 +35,7 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// <returns>Returns the achievements to push to the database.</returns>
         public IEnumerable<AchievementEnt> GetAchievementDatabaseConfiguration()
         {
-            return ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
+            return ReadJsonFile<List<AchievementEnt>>("achievement.config.json");
         }
 
         /// <summary>
@@ -25,7 +44,7 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// <returns>Returns struct with connection information.</returns>
         public string GetConnection()
         {
-            dynamic databaseInfoJson = ReadJsonFile<dynamic>("config/data-access.config.json");
+            dynamic databaseInfoJson = ReadJsonFile<dynamic>("data-access.config.json");
 
             return ParseConnectionString(databaseInfoJson.connection);
         }
@@ -36,31 +55,31 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// <returns>Returns the configuration for the database.</returns>
         public DatabaseInfoDataStruct GetDatabaseConfiguration()
         {
-            dynamic databaseInfoJson = ReadJsonFile<dynamic>("config/data-access.config.json");
+            dynamic databaseInfoJson = ReadJsonFile<dynamic>("data-access.config.json");
 
             return new DatabaseInfoDataStruct(databaseInfoJson.database.linkTable,
-                                          databaseInfoJson.database.achievementTable,
-                                          databaseInfoJson.database.userTable,
-                                          databaseInfoJson.database.userKey);
+                                              databaseInfoJson.database.achievementTable,
+                                              databaseInfoJson.database.userTable,
+                                              databaseInfoJson.database.userKey);
         }
 
         public void AddAchievement(AchievementEnt achievement)
         {
-            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
+            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("achievement.config.json");
 
             achievementConfigJson.Add(achievement);
 
-            WriteJsonFile("config/data-access.config.json", achievementConfigJson);
+            WriteJsonFile("achievement.config.json", achievementConfigJson);
         }
 
         public void RemoveAchievement(string achievementId)
         {
-            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("config/data-access.config.json");
+            List<AchievementEnt> achievementConfigJson = ReadJsonFile<List<AchievementEnt>>("achievement.config.json");
 
             var achievement = achievementConfigJson.Find(achieve => achieve.id == achievementId);
             achievementConfigJson.Remove(achievement);
 
-            WriteJsonFile("config/data-access.config.json", achievementConfigJson);
+            WriteJsonFile("achievement.config.json", achievementConfigJson);
         }
         #endregion
 
@@ -69,19 +88,19 @@ namespace Blazoned.AchievementHunter.DAL.Configuration
         /// Parse a json file into a json object.
         /// </summary>
         /// <typeparam name="T">The object type to deserialise with.</typeparam>
-        /// <param name="path">The path of the to-read file.</param>
+        /// <param name="file">The path of the to-read file.</param>
         /// <returns>Returns the json object stored in the file.</returns>
-        private dynamic ReadJsonFile<T>(string path)
+        private T ReadJsonFile<T>(string file)
         {
-            using (StreamReader r = new StreamReader(path))
+            using (StreamReader r = new StreamReader(_configPath + file))
             {
                 return JsonConvert.DeserializeObject<T>(r.ReadToEnd());
             }
         }
 
-        public void WriteJsonFile(string path, object obj)
+        public void WriteJsonFile(string file, object obj)
         {
-            using (StreamWriter w = new StreamWriter(path))
+            using (StreamWriter w = new StreamWriter(_configPath + file))
             {
                 JsonConvert.SerializeObject(obj);
 

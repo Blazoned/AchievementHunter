@@ -2,8 +2,6 @@ TODO:
 
 - Add AspNetCore application to demonstrate the application's functionality (per wish of the client)
 -- Test with unit tests
---- Add exception handling for adding and removing new achievements.
---- Change connection config to accept a different datapath (optional)
 
 - Add MySQL database logics in the MySQL DAL
 - Add connection string encryption

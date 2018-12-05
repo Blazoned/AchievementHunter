@@ -58,8 +58,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="config\achievement.config.json" />
-    <None Include="config\data-access.config.json" />
+    <None Include="config\achievement.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config\data-access.config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

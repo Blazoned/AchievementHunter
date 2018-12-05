@@ -1,16 +1,16 @@
 [
-  {
-    "id": "ACH1",
-    "title": "I am an achievement!",
-    "description": "And you deserve to have achieved me!",
-    "score": 100,
-    "goal": 1
-  },
-  {
-    "id": "ACH2",
-    "title": "I am another achievement!",
-    "description": "And you trigger me!",
-    "score": 100,
-    "goal": -1
-  }
+    {
+      "id": "ACH1",
+      "title": "I am an achievement!",
+      "description": "And you deserve to have achieved me!",
+      "score": 500,
+      "goal": 3
+    },
+    {
+      "id": "ACH2",
+      "title": "I am another achievement!",
+      "description": "And you trigger me!",
+      "score": 100,
+      "goal": -1
+    }
 ]
