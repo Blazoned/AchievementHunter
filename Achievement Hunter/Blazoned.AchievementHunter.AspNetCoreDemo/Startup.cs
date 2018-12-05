@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Blazoned.AchievementHunter.DAL.InMemory;
-using Blazoned.AchievementHunter.IoC.AspNetCore;
+using Blazoned.AchievementHunter.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

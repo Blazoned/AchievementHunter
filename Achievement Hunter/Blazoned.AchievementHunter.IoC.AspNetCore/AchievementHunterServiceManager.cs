@@ -7,7 +7,7 @@ using Blazoned.AchievementHunter.DAL.InMemory;
 using Blazoned.AchievementHunter.DAL.MySQL;
 using Blazoned.AchievementHunter.IDAL.Interfaces.Achievements;
 
-namespace Blazoned.AchievementHunter.IoC.AspNetCore
+namespace Blazoned.AchievementHunter.Configuration
 {
     public static class AchievementHunterServiceManager
     {

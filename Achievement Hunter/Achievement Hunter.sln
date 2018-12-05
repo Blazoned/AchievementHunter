@@ -19,6 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCCE0B5C-A09F-4AFD-BB31-4156D48A8BF3}"
 	ProjectSection(SolutionItems) = preProject
+		C:\Users\Blazoned Gaming\Desktop\Achievement Hunter Library Description (NL).docx = C:\Users\Blazoned Gaming\Desktop\Achievement Hunter Library Description (NL).docx
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
@@ -32,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interfaces", "User Int
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IoC Containers", "IoC Containers", "{706574BF-B673-49D0-9CCC-490026064013}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.IoC", "Blazoned.AchievementHunter.IoC.AspNetCore\Blazoned.AchievementHunter.IoC.csproj", "{91E49377-3790-4193-9B4A-8797FEBD5461}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazoned.AchievementHunter.Configuration", "Blazoned.AchievementHunter.IoC.AspNetCore\Blazoned.AchievementHunter.Configuration.csproj", "{91E49377-3790-4193-9B4A-8797FEBD5461}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazoned.AchievementHunter.AspNetCoreDemo", "Blazoned.AchievementHunter.AspNetCoreDemo\Blazoned.AchievementHunter.AspNetCoreDemo.csproj", "{D8CAD423-FD5F-4B1C-BCE8-5857D0276F29}"
 EndProject

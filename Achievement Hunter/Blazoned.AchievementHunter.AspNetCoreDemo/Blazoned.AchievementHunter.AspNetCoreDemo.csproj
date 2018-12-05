@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Blazoned.AchievementHunter.IDAL\Blazoned.AchievementHunter.IDAL.csproj" />
-    <ProjectReference Include="..\Blazoned.AchievementHunter.IoC.AspNetCore\Blazoned.AchievementHunter.IoC.csproj" />
+    <ProjectReference Include="..\Blazoned.AchievementHunter.IoC.AspNetCore\Blazoned.AchievementHunter.Configuration.csproj" />
     <ProjectReference Include="..\Blazoned.AchievementHunter\Blazoned.AchievementHunter.csproj" />
   </ItemGroup>
 

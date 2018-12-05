@@ -1,12 +1,8 @@
 TODO:
 
-- Add AspNetCore application to demonstrate the application's functionality (per wish of the client)
--- Test with unit tests
+/ - Add AspNetCore application to demonstrate the application's functionality (per wish of the client) / (semi-finished)
 
-- Add MySQL database logics in the MySQL DAL
-- Add connection string encryption
-
-# Question: Why and how does this work?
-#
-# List<ClassA> listObj = new List<ClassA>();
-# ClassA obj = (ClassA)listObj;
+{
+	- Add MySQL database logics in the MySQL DAL
+	- Add connection string encryption
+}
